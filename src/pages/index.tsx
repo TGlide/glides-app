@@ -1,8 +1,12 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
+import { useQueryClient } from 'react-query';
 import styled from 'styled-components';
 
-import { Heading } from 'components/Text';
+import { Container } from 'UI/Layout';
+import { Heading } from 'UI/Text';
+import { AddPresentation } from 'components/AddPresentation';
+import { Presentation } from 'components/Presentation';
 import { trpc } from 'utils/trpc';
 
 const Home: NextPage = () => {
@@ -10,16 +14,17 @@ const Home: NextPage = () => {
 
 	const createPresentation = trpc.useMutation(['presentation.create']);
 	const deletePresentation = trpc.useMutation(['presentation.delete']);
+	const client = useQueryClient();
 
 	const addPresentation = async () => {
-		await createPresentation.mutateAsync(undefined);
-		refetch();
+		await createPresentation.mutateAsync({ title: 'New presentation' });
+		client.invalidateQueries(['presentation.getAll']);
 	};
 
 	const handleDeletePres = (id: string) => {
 		return async () => {
 			await deletePresentation.mutateAsync({ id });
-			refetch();
+			client.invalidateQueries(['presentation.getAll']);
 		};
 	};
 
@@ -31,57 +36,44 @@ const Home: NextPage = () => {
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 
-			<Wrapper>
-				<div>
-					<Heading>Glides</Heading>
-
-					<Button className="add" onClick={addPresentation}>
-						Add presentation
-					</Button>
-
+			<Main>
+				<TopBar>
+					<Logo src={'/logo_inverted.svg'} alt="Glides" />
+				</TopBar>
+				<Container>
+					<Heading>Presentations</Heading>
 					<Presentations>
-						<p>{data?.length} presentations</p>
 						{data?.map((presentation) => (
-							<Presentation key={presentation.id}>
-								Presentation {presentation.id}
-								<Button onClick={handleDeletePres(presentation.id)}>Delete</Button>
-							</Presentation>
+							<Presentation key={presentation.id} {...presentation} />
 						))}
+						<AddPresentation onClick={addPresentation} />
 					</Presentations>
-				</div>
-			</Wrapper>
+				</Container>
+			</Main>
 		</>
 	);
 };
 
 export default Home;
 
-const Wrapper = styled.div`
-	display: grid;
-	place-items: center;
+const Main = styled.div`
 	min-height: 100vh;
-	text-align: center;
 `;
 
-const Button = styled.button`
-	border: 1px solid #000;
-	border-radius: 0.5rem;
-	padding: 0.5rem;
+const TopBar = styled.div`
+	background-color: ${({ theme }) => theme.colors.accent};
+	padding: 16px 8px;
+`;
 
-	&.add {
-		margin-top: 1rem;
-	}
+const Logo = styled.img`
+	width: auto;
+	height: 1.25rem;
 `;
 
 const Presentations = styled.div`
 	display: flex;
-	flex-direction: column;
-	gap: 0.5rem;
-	margin-top: 1rem;
-`;
+	gap: 0.75rem;
+	flex-wrap: wrap;
 
-const Presentation = styled.div`
-	display: flex;
-	align-items: center;
-	gap: 0.5rem;
+	margin-top: 1rem;
 `;

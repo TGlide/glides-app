@@ -1,0 +1,12 @@
+{
+	"Styled Components": {
+		"prefix": "styled",
+		"body": [
+			"const $1 = styled.$2`",
+			"  $3",
+			"`;",
+			""
+		],
+		"description": "Styled Components"
+	}
+}

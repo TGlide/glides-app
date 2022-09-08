@@ -3,15 +3,13 @@ import { z } from 'zod';
 import { createRouter } from './context';
 
 export const presentationRouter = createRouter()
-	.query('hello', {
-		input: z
-			.object({
-				text: z.string().nullish()
-			})
-			.nullish(),
+	.query('get', {
+		input: z.object({
+			id: z.string()
+		}),
 		resolve({ input }) {
 			return {
-				greeting: `Hello ${input?.text ?? 'world'}`
+				greeting: `Hello ${input?.id ?? 'world'}`
 			};
 		}
 	})
@@ -21,9 +19,14 @@ export const presentationRouter = createRouter()
 		}
 	})
 	.mutation('create', {
-		async resolve({ ctx }) {
+		input: z.object({
+			title: z.string()
+		}),
+		async resolve({ ctx, input }) {
 			await ctx.prisma.presentation.create({
-				data: {}
+				data: {
+					title: input.title
+				}
 			});
 		}
 	})
