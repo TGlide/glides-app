@@ -171,6 +171,7 @@ body {
   margin: 0;
   font-family: ${({ theme }) => theme.fonts.sans};
   background-color: ${({ theme }) => theme.colors.background};
+  color: ${({ theme }) => theme.colors.primary};
 }
 
 a {

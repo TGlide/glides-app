@@ -1,4 +1,4 @@
-import { CalendarEdit16Regular, CalendarEdit20Regular, Edit20Regular } from '@fluentui/react-icons';
+import { CalendarEdit16Regular } from '@fluentui/react-icons';
 import dayjs from 'dayjs';
 import styled from 'styled-components';
 
@@ -7,11 +7,12 @@ import { Body, Meta } from 'UI/Text';
 type PresentationProps = {
 	title: string;
 	editedAt?: Date;
+	onClick?: () => void;
 };
 
-export const Presentation = ({ title, editedAt }: PresentationProps) => {
+export const PresentationCard = ({ title, editedAt, onClick }: PresentationProps) => {
 	return (
-		<Wrapper>
+		<Wrapper onClick={onClick}>
 			<Cover src="https://visme.co/blog/wp-content/uploads/2019/08/presentation-slides-Business-Annual-Report-Template.jpg" />
 			<Title>{title}</Title>
 			<MetaWrapper>
@@ -22,10 +23,11 @@ export const Presentation = ({ title, editedAt }: PresentationProps) => {
 	);
 };
 
-const Wrapper = styled.div`
+const Wrapper = styled.button`
 	--width: 11.25rem;
 	width: var(--width);
 	overflow: hidden;
+	text-align: left;
 
 	transition: opacity ${({ theme }) => theme.transition.appearance};
 

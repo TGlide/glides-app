@@ -2,7 +2,8 @@ import { httpBatchLink } from '@trpc/client/links/httpBatchLink';
 import { loggerLink } from '@trpc/client/links/loggerLink';
 import { withTRPC } from '@trpc/next';
 import { AppType } from 'next/dist/shared/lib/utils';
-import { ThemeProvider } from 'styled-components';
+import Link from 'next/link';
+import styled, { ThemeProvider } from 'styled-components';
 import superjson from 'superjson';
 
 import { AppRouter } from 'server/router';
@@ -18,7 +19,17 @@ const App: AppType = ({ Component, pageProps }) => {
 	return (
 		<ThemeProvider theme={theme}>
 			<GlobalStyle />
-			<Component {...pageProps} />
+			<Main>
+				<TopBar>
+					<Link href="/" passHref>
+						<Clickable>
+							<Logo src={'/logo_inverted.svg'} alt="Glides" />
+						</Clickable>
+					</Link>
+				</TopBar>
+
+				<Component {...pageProps} />
+			</Main>
 		</ThemeProvider>
 	);
 };
@@ -48,3 +59,30 @@ export default withTRPC<AppRouter>({
 	},
 	ssr: false
 })(App);
+
+const Main = styled.div`
+	display: flex;
+	flex-direction: column;
+	height: 100vh;
+	overflow: hidden;
+`;
+
+const TopBar = styled.div`
+	background-color: ${({ theme }) => theme.colors.accent};
+	padding: 16px 8px;
+`;
+
+const Clickable = styled.a`
+	cursor: pointer;
+
+	transition: opacity ${({ theme }) => theme.transition.appearance};
+
+	&:hover {
+		opacity: 0.75;
+	}
+`;
+
+const Logo = styled.img`
+	width: auto;
+	height: 1.25rem;
+`;

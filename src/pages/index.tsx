@@ -1,32 +1,29 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 import { useQueryClient } from 'react-query';
 import styled from 'styled-components';
 
 import { Container } from 'UI/Layout';
 import { Heading } from 'UI/Text';
 import { AddPresentation } from 'components/AddPresentation';
-import { Presentation } from 'components/Presentation';
+import { PresentationCard } from 'components/PresentationCard';
 import { trpc } from 'utils/trpc';
 
 const Home: NextPage = () => {
-	const { data, refetch } = trpc.useQuery(['presentation.getAll']);
+	const router = useRouter();
+	const client = useQueryClient();
 
+	const { data } = trpc.useQuery(['presentation.getAll']);
 	const createPresentation = trpc.useMutation(['presentation.create']);
 	const deletePresentation = trpc.useMutation(['presentation.delete']);
-	const client = useQueryClient();
 
 	const addPresentation = async () => {
 		await createPresentation.mutateAsync({ title: 'New presentation' });
 		client.invalidateQueries(['presentation.getAll']);
 	};
 
-	const handleDeletePres = (id: string) => {
-		return async () => {
-			await deletePresentation.mutateAsync({ id });
-			client.invalidateQueries(['presentation.getAll']);
-		};
-	};
+	// TODO: Add loader and error handling
 
 	return (
 		<>
@@ -36,38 +33,27 @@ const Home: NextPage = () => {
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 
-			<Main>
-				<TopBar>
-					<Logo src={'/logo_inverted.svg'} alt="Glides" />
-				</TopBar>
-				<Container>
-					<Heading>Presentations</Heading>
-					<Presentations>
-						{data?.map((presentation) => (
-							<Presentation key={presentation.id} {...presentation} />
-						))}
-						<AddPresentation onClick={addPresentation} />
-					</Presentations>
-				</Container>
-			</Main>
+			<StyledContainer>
+				<Heading>Presentations</Heading>
+				<Presentations>
+					{data?.map((presentation) => (
+						<PresentationCard
+							key={presentation.id}
+							onClick={() => router.push(`/presentation/${presentation.id}`)}
+							{...presentation}
+						/>
+					))}
+					<AddPresentation onClick={addPresentation} />
+				</Presentations>
+			</StyledContainer>
 		</>
 	);
 };
 
 export default Home;
 
-const Main = styled.div`
-	min-height: 100vh;
-`;
-
-const TopBar = styled.div`
-	background-color: ${({ theme }) => theme.colors.accent};
-	padding: 16px 8px;
-`;
-
-const Logo = styled.img`
-	width: auto;
-	height: 1.25rem;
+const StyledContainer = styled(Container)`
+	flex: 1;
 `;
 
 const Presentations = styled.div`

@@ -16,6 +16,7 @@ model Presentation {
 
 model Slide {
     id             String       @id @default(cuid())
+    content        Json?
     presentation   Presentation @relation(fields: [presentationId], references: [id])
     presentationId String
 }

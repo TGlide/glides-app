@@ -2,35 +2,27 @@ import { z } from 'zod';
 
 import { createRouter } from './context';
 
-export const presentationRouter = createRouter()
+export const slideRouter = createRouter()
 	.query('get', {
 		input: z.object({
 			id: z.string()
 		}),
 		async resolve({ ctx, input }) {
-			return await ctx.prisma.presentation.findUnique({
+			return await ctx.prisma.slide.findUnique({
 				where: {
 					id: input.id
-				},
-				include: {
-					slides: true
 				}
 			});
 		}
 	})
-	.query('getAll', {
-		async resolve({ ctx }) {
-			return await ctx.prisma.presentation.findMany();
-		}
-	})
 	.mutation('create', {
 		input: z.object({
-			title: z.string()
+			presentationId: z.string()
 		}),
 		async resolve({ ctx, input }) {
-			await ctx.prisma.presentation.create({
+			await ctx.prisma.slide.create({
 				data: {
-					title: input.title
+					presentationId: input.presentationId
 				}
 			});
 		}
@@ -40,7 +32,7 @@ export const presentationRouter = createRouter()
 			id: z.string()
 		}),
 		async resolve({ ctx, input }) {
-			await ctx.prisma.presentation.delete({
+			await ctx.prisma.slide.delete({
 				where: {
 					id: input.id
 				}
