@@ -38,6 +38,7 @@ const getColors = (
 };
 
 export const Button = ({ children, iconLeft, onClick, variant, ...props }: ButtonProps) => {
+	// TODO: Add loading state
 	return (
 		<StyledButton onClick={onClick} colors={getColors(variant)} {...props}>
 			{iconLeft && <IconLeft>{iconLeft}</IconLeft>}

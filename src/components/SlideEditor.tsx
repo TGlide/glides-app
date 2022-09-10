@@ -18,13 +18,13 @@ import { parseSlideContent } from 'entities/slide';
 import { objectEntries } from 'utils/object';
 import { trpc } from 'utils/trpc';
 
-import { Section } from '../Section';
+import { SectionEditor } from './SectionEditor';
 
 type EditorProps = {
 	slideId?: string;
 };
 
-export const Editor = ({ slideId }: EditorProps) => {
+export const SlideEditor = ({ slideId }: EditorProps) => {
 	const queryClient = useQueryClient();
 	const deleteMutation = trpc.useMutation(['slide.delete']);
 	const updateMutation = trpc.useMutation(['slide.update']);
@@ -109,7 +109,7 @@ export const Editor = ({ slideId }: EditorProps) => {
 				<Sections>
 					{content.blocks.map((block, index) => {
 						return (
-							<Section
+							<SectionEditor
 								onSave={(b) => handleSaveBlock(b, index)}
 								onDelete={() => handleDeleteBlock(index)}
 								block={block}

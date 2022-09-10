@@ -4,9 +4,9 @@ import { useQueryClient } from 'react-query';
 import styled from 'styled-components';
 
 import { Button } from 'UI/Button';
-import { Editor } from 'components/Editor';
 import { Preview } from 'components/Preview';
 import { SlideCard } from 'components/SlideCard';
+import { SlideEditor } from 'components/SlideEditor';
 import { useStringQuery } from 'hooks/useStringQuery';
 import { alpha } from 'utils/color';
 import { trpc } from 'utils/trpc';
@@ -56,7 +56,7 @@ const Presentation = () => {
 				})}
 			</Slides>
 			<Preview slideId={activeSlide?.id} />
-			<Editor slideId={activeSlide?.id} />
+			<SlideEditor slideId={activeSlide?.id} />
 		</Wrapper>
 	);
 };

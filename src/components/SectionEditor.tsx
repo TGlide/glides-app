@@ -21,7 +21,7 @@ type SectionProps = {
 	onDelete: () => void;
 };
 
-export const Section = ({ block, onSave, onDelete }: SectionProps) => {
+export const SectionEditor = ({ block, onSave, onDelete }: SectionProps) => {
 	const [open, setOpen] = useState(false);
 	const blockRegistry = blockRegistries[block.name];
 	// TODO: Use React hook Form
