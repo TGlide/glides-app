@@ -55,8 +55,8 @@ const Presentation = () => {
 					);
 				})}
 			</Slides>
-			<Preview content={activeSlide} />
-			<Editor slide={activeSlide} />
+			<Preview slideId={activeSlide?.id} />
+			<Editor slideId={activeSlide?.id} />
 		</Wrapper>
 	);
 };

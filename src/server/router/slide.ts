@@ -27,6 +27,22 @@ export const slideRouter = createRouter()
 			});
 		}
 	})
+	.mutation('update', {
+		input: z.object({
+			id: z.string(),
+			content: z.object({}).passthrough()
+		}),
+		async resolve({ ctx, input }) {
+			await ctx.prisma.slide.update({
+				where: {
+					id: input.id
+				},
+				data: {
+					content: input.content
+				}
+			});
+		}
+	})
 	.mutation('delete', {
 		input: z.object({
 			id: z.string()

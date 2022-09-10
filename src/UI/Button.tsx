@@ -5,12 +5,13 @@ import { theme } from 'styles/theme';
 import { alpha } from 'utils/color';
 
 type ButtonProps = {
-	children: React.ReactNode;
+	children?: React.ReactNode;
 	onClick?: () => void;
 	iconLeft?: React.ReactNode;
 	fullWidth?: boolean;
 	className?: string;
 	variant?: 'accent' | 'danger';
+	size?: 's' | 'm';
 };
 
 const getColors = (
@@ -29,8 +30,8 @@ const getColors = (
 			};
 		default:
 			return {
-				hover: alpha(theme.palette.teal[30], 0.5),
-				active: theme.palette.teal[30],
+				hover: theme.colors.borderHover,
+				active: theme.colors.borderActive,
 				text: theme.colors.primary
 			};
 	}
@@ -40,24 +41,29 @@ export const Button = ({ children, iconLeft, onClick, variant, ...props }: Butto
 	return (
 		<StyledButton onClick={onClick} colors={getColors(variant)} {...props}>
 			{iconLeft && <IconLeft>{iconLeft}</IconLeft>}
-			<span>{children}</span>
+			{children && <span>{children}</span>}
 		</StyledButton>
 	);
 };
 
-const StyledButton = styled.button<{ fullWidth?: boolean; colors: ReturnType<typeof getColors> }>`
+const StyledButton = styled.button<{
+	fullWidth?: boolean;
+	colors: ReturnType<typeof getColors>;
+	size?: ButtonProps['size'];
+}>`
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	gap: 0.5rem;
 
 	border: 1px solid ${({ theme }) => theme.colors.border};
-	border-radius: ${({ theme }) => theme.radii.l};
+	border-radius: ${({ theme, size }) => (size === 's' ? theme.radii.m : theme.radii.l)};
 	color: ${({ colors }) => colors.text};
 	cursor: pointer;
 
 	font-family: ${({ theme }) => theme.fonts.sans};
 
-	padding: 1rem;
+	padding: ${({ size }) => (size === 's' ? '0.75rem' : '1rem')};
 	width: ${(props) => (props.fullWidth ? '100%' : 'auto')};
 
 	transition: border ${({ theme }) => theme.transition.appearance};
@@ -74,5 +80,4 @@ const StyledButton = styled.button<{ fullWidth?: boolean; colors: ReturnType<typ
 const IconLeft = styled.div`
 	display: grid;
 	place-items: center;
-	margin-right: 0.5rem;
 `;

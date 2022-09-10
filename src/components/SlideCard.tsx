@@ -15,7 +15,7 @@ const Wrapper = styled.div<{ selected?: boolean }>`
 	place-items: center;
 
 	border: 2px solid
-		${({ theme, selected }) => (selected ? theme.palette.teal30 : theme.colors.tertiary)};
+		${({ theme, selected }) => (selected ? theme.palette.teal[30] : theme.colors.tertiary)};
 	border-radius: ${({ theme }) => theme.radii.s};
 	color: ${({ theme }) => theme.colors.tertiary};
 

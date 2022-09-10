@@ -25,7 +25,22 @@ const palette = {
 		80: 'hsla(0, 84%, 80%, 1)',
 		90: 'hsla(0, 84%, 90%, 1)',
 		100: 'hsla(0, 84%, 100%, 1)'
-	}
+	},
+	gray: {
+		0: 'hsla(220, 47%, 0%, 1)',
+		10: 'hsla(220, 47%, 10%, 1)',
+		20: 'hsla(220, 47%, 20%, 1)',
+		30: 'hsla(220, 47%, 30%, 1)',
+		40: 'hsla(220, 47%, 40%, 1)',
+		50: 'hsla(220, 47%, 50%, 1)',
+		60: 'hsla(220, 47%, 60%, 1)',
+		70: 'hsla(220, 47%, 70%, 1)',
+		80: 'hsla(220, 47%, 80%, 1)',
+		90: 'hsla(220, 47%, 90%, 1)',
+		100: 'hsla(220, 47%, 100%, 1)'
+	},
+	white: 'hsla(0, 0%, 100%, 1)',
+	black: 'hsla(0, 0%, 0%, 1)'
 };
 
 export const theme = {
@@ -35,7 +50,7 @@ export const theme = {
 		primary: 'hsla(238, 100%, 5%, 1)',
 		secondary: 'hsla(238, 100%, 5%, 0.75)',
 		tertiary: 'hsla(238, 100%, 5%, 0.25)',
-		accent: palette.teal[20],
+		accent: palette.teal[30],
 		border: 'hsla(238, 100%, 5%, 0.25)',
 		borderHover: alpha(palette.teal[30], 0.5),
 		borderActive: palette.teal[30]

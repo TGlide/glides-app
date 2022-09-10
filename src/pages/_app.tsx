@@ -14,6 +14,7 @@ import { theme } from 'styles/theme';
 import '@fontsource/libre-baskerville';
 import '@fontsource/libre-baskerville/700.css';
 import '@fontsource/manrope';
+import '@fontsource/manrope/500.css';
 
 const App: AppType = ({ Component, pageProps }) => {
 	return (
