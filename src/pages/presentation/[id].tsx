@@ -4,6 +4,8 @@ import { useQueryClient } from 'react-query';
 import styled from 'styled-components';
 
 import { Button } from 'UI/Button';
+import { NetworkState } from 'components/NetworkState';
+import { PresentationTopBar } from 'components/PresentationTopBar';
 import { Preview } from 'components/Preview';
 import { SlideCard } from 'components/SlideCard';
 import { SlideEditor } from 'components/SlideEditor';
@@ -14,7 +16,9 @@ import { trpc } from 'utils/trpc';
 const Presentation = () => {
 	const id = useStringQuery('id');
 	const queryClient = useQueryClient();
-	const { data } = trpc.useQuery(['presentation.get', { id: id ?? '' }], { enabled: !!id });
+	const { data, error, isLoading } = trpc.useQuery(['presentation.get', { id: id ?? '' }], {
+		enabled: !!id
+	});
 	const addSlideMutation = trpc.useMutation('slide.create');
 
 	const [slideIdx, setSlideIdx] = useState(0);
@@ -26,42 +30,51 @@ const Presentation = () => {
 		queryClient.refetchQueries(['presentation.get']);
 	};
 
-	// TODO: Implement loader or ssr
-	if (data === null || data === undefined) {
-		return <div>Not found</div>;
+	if (isLoading || !!error || !data || !id) {
+		return <NetworkState loading={isLoading} error={!!error || !id} />;
 	}
 
 	return (
-		<Wrapper>
-			<Slides>
-				{/* TODO: Make sticky */}
-				<AddSlide iconLeft={<Add16Regular />} fullWidth onClick={addSlide}>
-					Add slide
-				</AddSlide>
-				{data.slides.map((slide, index) => {
-					const isSelected = index === slideIdx;
+		<Main>
+			<PresentationTopBar presentationId={id} />
+			<Wrapper>
+				<Slides>
+					{/* TODO: Make sticky */}
+					<AddSlide iconLeft={<Add16Regular />} fullWidth onClick={addSlide}>
+						Add slide
+					</AddSlide>
+					{data.slides.map((slide, index) => {
+						const isSelected = index === slideIdx;
 
-					return (
-						<SlideCardWrapper
-							key={slide.id}
-							selected={isSelected}
-							onClick={() => setSlideIdx(index)}
-						>
-							<p>{index + 1}</p>
-							<SlideCard id={slide.id} selected={isSelected}>
-								{index}
-							</SlideCard>
-						</SlideCardWrapper>
-					);
-				})}
-			</Slides>
-			<Preview slideId={activeSlide?.id} />
-			<SlideEditor slideId={activeSlide?.id} />
-		</Wrapper>
+						return (
+							<SlideCardWrapper
+								key={slide.id}
+								selected={isSelected}
+								onClick={() => setSlideIdx(index)}
+							>
+								<p>{index + 1}</p>
+								<SlideCard id={slide.id} selected={isSelected}>
+									{index}
+								</SlideCard>
+							</SlideCardWrapper>
+						);
+					})}
+				</Slides>
+				<Preview slideId={activeSlide?.id} />
+				<SlideEditor slideId={activeSlide?.id} />
+			</Wrapper>
+		</Main>
 	);
 };
 
 export default Presentation;
+
+const Main = styled.div`
+	display: flex;
+	flex-direction: column;
+	height: 100vh;
+	overflow: hidden;
+`;
 
 const Wrapper = styled.div`
 	display: grid;

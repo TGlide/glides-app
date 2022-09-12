@@ -35,6 +35,22 @@ export const presentationRouter = createRouter()
 			});
 		}
 	})
+	.mutation('update', {
+		input: z.object({
+			id: z.string(),
+			title: z.string()
+		}),
+		async resolve({ ctx, input }) {
+			await ctx.prisma.presentation.update({
+				where: {
+					id: input.id
+				},
+				data: {
+					title: input.title
+				}
+			});
+		}
+	})
 	.mutation('delete', {
 		input: z.object({
 			id: z.string()

@@ -81,7 +81,7 @@ export const SectionEditor = ({ block, onSave, onDelete }: SectionProps) => {
 						<Button iconLeft={<Save16Filled />} onClick={handleSave}>
 							Save
 						</Button>
-						<Button iconLeft={<Delete16Filled />} variant="danger" onClick={onDelete}>
+						<Button iconLeft={<Delete16Filled />} variant="danger" outline onClick={onDelete}>
 							Delete
 						</Button>
 					</ContentButtons>

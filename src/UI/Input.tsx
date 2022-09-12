@@ -19,7 +19,7 @@ export const Input = ({ label, onChange, ...props }: InputProps) => {
 	return (
 		<Wrapper>
 			{label && <Label>{label}</Label>}
-			<StyledInput onChange={handleChange} {...props} />
+			<StyledInput onInput={handleChange} {...props} />
 		</Wrapper>
 	);
 };

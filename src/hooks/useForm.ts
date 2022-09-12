@@ -4,6 +4,7 @@ export const useForm = <T>(initialState: T) => {
 	const [formData, setFormData] = useState(initialState);
 
 	const onChange = (name: keyof T) => {
+		console.log('fck');
 		return (value: T[keyof T]) => {
 			setFormData({ ...formData, [name]: value });
 		};

@@ -9,6 +9,7 @@ import { Heading } from 'UI/Text';
 import { AddPresentation } from 'components/AddPresentation';
 import { NetworkState } from 'components/NetworkState';
 import { PresentationCard } from 'components/PresentationCard';
+import { TopBar } from 'components/TopBar';
 import { trpc } from 'utils/trpc';
 
 const Home: NextPage = () => {
@@ -17,7 +18,6 @@ const Home: NextPage = () => {
 
 	const { data, isLoading, error } = trpc.useQuery(['presentation.getAll']);
 	const createPresentation = trpc.useMutation(['presentation.create']);
-	const deletePresentation = trpc.useMutation(['presentation.delete']);
 
 	const addPresentation = async () => {
 		await createPresentation.mutateAsync({ title: 'New presentation' });
@@ -36,19 +36,22 @@ const Home: NextPage = () => {
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 
-			<StyledContainer>
-				<Heading>Presentations</Heading>
-				<Presentations>
-					{data?.map((presentation) => (
-						<PresentationCard
-							key={presentation.id}
-							onClick={() => router.push(`/presentation/${presentation.id}`)}
-							{...presentation}
-						/>
-					))}
-					<AddPresentation onClick={addPresentation} />
-				</Presentations>
-			</StyledContainer>
+			<Main>
+				<TopBar />
+				<StyledContainer>
+					<Heading>Presentations</Heading>
+					<Presentations>
+						{data?.map((presentation) => (
+							<PresentationCard
+								key={presentation.id}
+								onClick={() => router.push(`/presentation/${presentation.id}`)}
+								{...presentation}
+							/>
+						))}
+						<AddPresentation onClick={addPresentation} />
+					</Presentations>
+				</StyledContainer>
+			</Main>
 		</>
 	);
 };
@@ -65,4 +68,11 @@ const Presentations = styled.div`
 	flex-wrap: wrap;
 
 	margin-top: 1rem;
+`;
+
+const Main = styled.div`
+	display: flex;
+	flex-direction: column;
+	height: 100vh;
+	overflow: hidden;
 `;

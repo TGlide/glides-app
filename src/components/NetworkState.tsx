@@ -30,7 +30,7 @@ export const NetworkState = ({ loading, error }: NetworkStateProps) => {
 const Wrapper = styled.div`
 	display: grid;
 	place-items: center;
-	height: 100%;
+	height: 100vh;
 
 	color: ${({ theme }) => theme.colors.accent};
 `;

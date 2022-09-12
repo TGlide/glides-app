@@ -1,8 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { theme } from 'styles/theme';
-import { alpha } from 'utils/color';
+import { ThemeObj } from 'styles/theme';
 
 type ButtonProps = {
 	children?: React.ReactNode;
@@ -10,37 +9,106 @@ type ButtonProps = {
 	iconLeft?: React.ReactNode;
 	fullWidth?: boolean;
 	className?: string;
-	variant?: 'accent' | 'danger';
+	variant?: 'accent' | 'danger' | 'accent';
+	outline?: boolean;
 	size?: 's' | 'm';
 };
 
-const getColors = (
-	variant: ButtonProps['variant']
-): {
+type Colors = {
 	text: string;
-	hover: string;
-	active: string;
-} => {
-	switch (variant) {
-		case 'danger':
-			return {
-				hover: alpha(theme.palette.red[40], 0.5),
-				active: theme.palette.red[40],
-				text: theme.palette.red[40]
-			};
-		default:
-			return {
-				hover: theme.colors.borderHover,
-				active: theme.colors.borderActive,
-				text: theme.colors.primary
-			};
-	}
+	border: {
+		default: string;
+		hover: string;
+		active: string;
+	};
+	background: {
+		default: string;
+		hover: string;
+		active: string;
+	};
 };
 
-export const Button = ({ children, iconLeft, onClick, variant, ...props }: ButtonProps) => {
+const getColorsFactory = (variant: ButtonProps['variant'], outline: ButtonProps['outline']) => {
+	return (theme: ThemeObj): Colors => {
+		if (outline) {
+			switch (variant) {
+				case 'danger':
+					return {
+						border: {
+							default: theme.colors.danger,
+							hover: theme.colors.dangerDark,
+							active: theme.colors.dangerDarker
+						},
+						text: theme.colors.danger,
+						background: {
+							default: 'transparent',
+							hover: 'transparent',
+							active: 'transparent'
+						}
+					};
+				default:
+					return {
+						border: {
+							default: theme.colors.border,
+							hover: theme.colors.borderHover,
+							active: theme.colors.borderActive
+						},
+						text: theme.colors.primary,
+						background: {
+							default: 'transparent',
+							hover: 'transparent',
+							active: 'transparent'
+						}
+					};
+			}
+		} else {
+			switch (variant) {
+				case 'danger':
+					return {
+						border: {
+							default: theme.colors.danger,
+							hover: theme.colors.dangerDark,
+							active: theme.colors.dangerDarker
+						},
+						text: theme.colors.dangerForeground,
+						background: {
+							default: theme.colors.danger,
+							hover: theme.colors.dangerDark,
+							active: theme.colors.dangerDarker
+						}
+					};
+				default:
+					return {
+						border: {
+							default: theme.colors.border,
+							hover: theme.colors.borderHover,
+							active: theme.colors.borderActive
+						},
+						text: theme.colors.primary,
+						background: {
+							default: 'transparent',
+							hover: 'transparent',
+							active: 'transparent'
+						}
+					};
+			}
+		}
+	};
+};
+
+export const Button = ({
+	children,
+	iconLeft,
+	onClick,
+	variant,
+	outline,
+	...props
+}: ButtonProps) => {
+	const getColors = getColorsFactory(variant, outline);
+
 	// TODO: Add loading state
 	return (
-		<StyledButton onClick={onClick} colors={getColors(variant)} {...props}>
+		<StyledButton onClick={onClick} getColors={getColors} {...props}>
 			{iconLeft && <IconLeft>{iconLeft}</IconLeft>}
 			{children && <span>{children}</span>}
 		</StyledButton>
@@ -49,17 +117,19 @@ export const Button = ({ children, iconLeft, onClick, variant, ...props }: Butto
 
 const StyledButton = styled.button<{
 	fullWidth?: boolean;
-	colors: ReturnType<typeof getColors>;
+	getColors: ReturnType<typeof getColorsFactory>;
 	size?: ButtonProps['size'];
+	outline?: boolean;
 }>`
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	gap: 0.5rem;
 
-	border: 1px solid ${({ theme }) => theme.colors.border};
+	background-color: ${({ getColors, theme }) => getColors(theme).background.default};
+	border: 1px solid ${({ getColors, theme }) => getColors(theme).border.default};
 	border-radius: ${({ theme, size }) => (size === 's' ? theme.radii.m : theme.radii.l)};
-	color: ${({ colors }) => colors.text};
+	color: ${({ getColors, theme }) => getColors(theme).text};
 	cursor: pointer;
 
 	font-family: ${({ theme }) => theme.fonts.sans};
@@ -70,11 +140,13 @@ const StyledButton = styled.button<{
 	transition: border ${({ theme }) => theme.transition.appearance};
 
 	&:hover {
-		border-color: ${({ colors }) => colors.hover};
+		background-color: ${({ getColors, theme }) => getColors(theme).background.hover};
+		border-color: ${({ getColors, theme }) => getColors(theme).border.hover};
 	}
 
 	&:active {
-		border-color: ${({ colors }) => colors.active};
+		background-color: ${({ getColors, theme }) => getColors(theme).background.active};
+		border-color: ${({ getColors, theme }) => getColors(theme).border.active};
 	}
 `;
 

@@ -19,6 +19,7 @@ const palette = {
 		20: 'hsla(0, 84%, 20%, 1)',
 		30: 'hsla(0, 84%, 30%, 1)',
 		40: 'hsla(0, 84%, 40%, 1)',
+		45: 'hsla(0, 84%, 45%, 1)',
 		50: 'hsla(0, 84%, 50%, 1)',
 		60: 'hsla(0, 84%, 60%, 1)',
 		70: 'hsla(0, 84%, 70%, 1)',
@@ -46,13 +47,19 @@ const palette = {
 export const theme = {
 	palette: { ...palette },
 	colors: {
-		background: 'hsla(0, 0%, 100%, 1)',
-		primary: 'hsla(238, 100%, 5%, 1)',
-		secondary: 'hsla(238, 100%, 5%, 0.75)',
-		tertiary: 'hsla(238, 100%, 5%, 0.25)',
+		background: palette.white,
+		primary: palette.gray[10],
+		secondary: alpha(palette.gray[10], 0.75),
+		tertiary: alpha(palette.gray[10], 0.25),
 		accent: palette.teal[30],
-		danger: palette.red[40],
-		border: 'hsla(238, 100%, 5%, 0.25)',
+		accentDark: palette.teal[20],
+		accentDarker: palette.teal[10],
+		accentForeground: palette.white,
+		danger: palette.red[45],
+		dangerDark: palette.red[40],
+		dangerDarker: palette.red[30],
+		dangerForeground: palette.white,
+		border: alpha(palette.gray[10], 0.25),
 		borderHover: alpha(palette.teal[30], 0.5),
 		borderActive: palette.teal[30]
 	},
@@ -75,3 +82,21 @@ export const theme = {
 		inOut: '300ms ease-in-out'
 	}
 };
+
+export const accentTheme = {
+	...theme,
+	colors: {
+		...theme.colors,
+		background: palette.teal[30],
+		primary: palette.white,
+		border: alpha(palette.white, 0.5),
+		accent: palette.white,
+		accentForeground: palette.teal[30],
+		danger: palette.white,
+		dangerDark: alpha(palette.white, 0.95),
+		dangerDarker: alpha(palette.white, 0.9),
+		dangerForeground: palette.red[40]
+	}
+};
+
+export type ThemeObj = typeof theme;
