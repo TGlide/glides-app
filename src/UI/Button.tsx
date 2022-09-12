@@ -28,6 +28,7 @@ type Colors = {
 	};
 };
 
+// TODO: Improve this mess
 const getColorsFactory = (variant: ButtonProps['variant'], outline: ButtonProps['outline']) => {
 	return (theme: ThemeObj): Colors => {
 		if (outline) {

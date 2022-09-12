@@ -1,5 +1,6 @@
 import { Delete16Filled } from '@fluentui/react-icons';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import React, { ChangeEvent, useState } from 'react';
 import { useQueryClient } from 'react-query';
 import styled from 'styled-components';
@@ -14,8 +15,12 @@ type PresentationTopBarProps = {
 
 export const PresentationTopBar = ({ presentationId }: PresentationTopBarProps) => {
 	const client = useQueryClient();
+	const router = useRouter();
+
 	const { data } = trpc.useQuery(['presentation.get', { id: presentationId }]);
 	const updatePresentation = trpc.useMutation(['presentation.update']);
+	const deletePresentation = trpc.useMutation(['presentation.delete']);
+
 	const [title, setTitle] = useState(data?.title);
 
 	const handleTitleInput = (event: ChangeEvent<HTMLInputElement>) => {
@@ -29,6 +34,13 @@ export const PresentationTopBar = ({ presentationId }: PresentationTopBarProps) 
 		client.invalidateQueries(['presentation.getAll']);
 	};
 
+	const handleDelete = async () => {
+		await deletePresentation.mutateAsync({ id: presentationId });
+		client.invalidateQueries(['presentation.getAll']);
+		client.invalidateQueries(['presentation.get']);
+		router.push('/');
+	};
+
 	return (
 		<Theme variant="accent">
 			<Wrapper>
@@ -38,7 +50,7 @@ export const PresentationTopBar = ({ presentationId }: PresentationTopBarProps) 
 					</Clickable>
 				</Link>
 				<EditTitle value={title} onInput={handleTitleInput} onBlur={handleTitleBlur} />
-				<DeleteButton iconLeft={<Delete16Filled />} variant="danger">
+				<DeleteButton iconLeft={<Delete16Filled />} variant="danger" onClick={handleDelete}>
 					Delete
 				</DeleteButton>
 			</Wrapper>
