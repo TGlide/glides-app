@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import { Container } from 'UI/Layout';
 import { Heading } from 'UI/Text';
 import { AddPresentation } from 'components/AddPresentation';
+import { NetworkState } from 'components/NetworkState';
 import { PresentationCard } from 'components/PresentationCard';
 import { trpc } from 'utils/trpc';
 
@@ -14,7 +15,7 @@ const Home: NextPage = () => {
 	const router = useRouter();
 	const client = useQueryClient();
 
-	const { data } = trpc.useQuery(['presentation.getAll']);
+	const { data, isLoading, error } = trpc.useQuery(['presentation.getAll']);
 	const createPresentation = trpc.useMutation(['presentation.create']);
 	const deletePresentation = trpc.useMutation(['presentation.delete']);
 
@@ -23,7 +24,9 @@ const Home: NextPage = () => {
 		client.invalidateQueries(['presentation.getAll']);
 	};
 
-	// TODO: Add loader and error handling
+	if (isLoading || error) {
+		return <NetworkState loading={isLoading} error={!!error} />;
+	}
 
 	return (
 		<>

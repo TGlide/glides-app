@@ -51,6 +51,7 @@ export const theme = {
 		secondary: 'hsla(238, 100%, 5%, 0.75)',
 		tertiary: 'hsla(238, 100%, 5%, 0.25)',
 		accent: palette.teal[30],
+		danger: palette.red[40],
 		border: 'hsla(238, 100%, 5%, 0.25)',
 		borderHover: alpha(palette.teal[30], 0.5),
 		borderActive: palette.teal[30]
