@@ -16,7 +16,7 @@ export type BlockRegistry<F extends Record<string, FieldRegistry> = Record<strin
 export type Block<R extends BlockRegistry<any> = BlockRegistry<any>> = {
 	name: R['name'];
 	fields: {
-		[K in keyof R['fields']]: R['fields'][K]['return_type'];
+		[K in keyof R['fields']]: R['fields'][K]['defaultValue'];
 	} & {
 		[key: string]: any;
 	};
@@ -57,7 +57,13 @@ export function parseBlockRegistry<R extends BlockRegistry>(registry: R): Block<
 // Blocks
 const TextBlockRegister = registerBlock('text', {
 	text: registerTextField('Text'),
-	fontSize: registerNumberField(16)
+	fontSize: registerNumberField(16),
+	fontWeight: registerSelectField('normal', {
+		options: ['normal', 'bold']
+	}),
+	textAlign: registerSelectField('left', {
+		options: ['left', 'center', 'right']
+	})
 });
 
 export type TextBlock = Block<typeof TextBlockRegister>;
@@ -70,6 +76,7 @@ const IconBlockRegister = registerBlock('icon', {
 export type IconBlock = Block<typeof IconBlockRegister>;
 
 const blockRegistriesArr = [TextBlockRegister, IconBlockRegister];
+
 export const blockRegistries = blockRegistriesArr.reduce((acc, registry) => {
 	acc[registry.name] = registry;
 	return acc;

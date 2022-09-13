@@ -1,10 +1,11 @@
 import dynamic from 'next/dynamic';
 import React, { ComponentType } from 'react';
 
-import { FieldRegistry as FieldType } from 'entities/fields';
-
 export type FieldProps = {
-	field: FieldType;
+	// We use any here because we don't know the type of the field beforehand, since
+	// it's a dynamic component
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	field: any;
 	value?: string;
 	onChange: (value: string) => void;
 	label?: string;
@@ -13,7 +14,8 @@ export type FieldProps = {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const Components: Record<string, ComponentType<FieldProps>> = {
 	text: dynamic(() => import('./TextField')),
-	number: dynamic(() => import('./NumberField'))
+	number: dynamic(() => import('./NumberField')),
+	select: dynamic(() => import('./SelectField'))
 };
 
 export const Field = (props: FieldProps) => {

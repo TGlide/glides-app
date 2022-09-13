@@ -14,6 +14,7 @@ import { Block, blockRegistries } from 'entities/blocks';
 import { useForm } from 'hooks/useForm';
 import { alpha } from 'utils/color';
 import { objectEntries } from 'utils/object';
+import { formatCamelCase } from 'utils/string';
 
 type SectionProps = {
 	block: Block;
@@ -36,18 +37,17 @@ export const SectionEditor = ({ block, onSave, onDelete }: SectionProps) => {
 	);
 
 	const handleSave = () => {
-		const parsedFormData = objectEntries(blockRegistry?.fields ?? {})?.reduce(
-			(acc, [name, field]) => {
-				const formValue = formData[name] ?? '';
-				const parsedValue = typeof field.defaultValue === 'number' ? Number(formValue) : formValue;
+		if (!blockRegistry?.fields) return;
 
-				return {
-					...acc,
-					[name]: parsedValue
-				};
-			},
-			{} as Record<string, string | number>
-		);
+		const parsedFormData = objectEntries(blockRegistry.fields)?.reduce((acc, [name, field]) => {
+			const formValue = formData[name] ?? '';
+			const parsedValue = typeof field.defaultValue === 'number' ? Number(formValue) : formValue;
+
+			return {
+				...acc,
+				[name]: parsedValue
+			};
+		}, {} as Record<string, string | number>);
 
 		onSave({
 			...block,
@@ -74,7 +74,7 @@ export const SectionEditor = ({ block, onSave, onDelete }: SectionProps) => {
 							key={key}
 							value={formData[key]}
 							onChange={onChange(key)}
-							label={key}
+							label={formatCamelCase(key)}
 						/>
 					))}
 					<ContentButtons>
