@@ -39,7 +39,7 @@ export const SectionEditor = ({ block, onSave, onDelete }: SectionProps) => {
 		const parsedFormData = objectEntries(blockRegistry?.fields ?? {})?.reduce(
 			(acc, [name, field]) => {
 				const formValue = formData[name] ?? '';
-				const parsedValue = typeof field.return_type === 'number' ? Number(formValue) : formValue;
+				const parsedValue = typeof field.defaultValue === 'number' ? Number(formValue) : formValue;
 
 				return {
 					...acc,

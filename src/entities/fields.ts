@@ -1,33 +1,33 @@
-export type Field<T extends string | number = string | number> = {
+import { text } from 'stream/consumers';
+
+export type FieldRegistry<T extends string | number = string | number, Extra = unknown> = {
 	name: string;
-	return_type: T;
+	defaultValue?: T;
+	extra?: Extra;
 };
 
-function createField(name: string, return_type: 'string'): Field<string>;
-function createField(name: string, return_type: 'number'): Field<number>;
+type RegisterField<T extends string | number, Extra = unknown> = (
+	defaultValue: T,
+	extra?: Extra
+) => FieldRegistry<T, Extra>;
 
-function createField(name: string, return_type: 'string' | 'number'): Field<string | number> {
-	if (return_type === 'string') {
-		return {
-			name,
-			return_type: '' as string
-		};
-	}
+export const registerTextField: RegisterField<string> = (defaultValue, extra) => ({
+	name: 'text',
+	defaultValue,
+	extra
+});
 
-	return {
-		name,
-		return_type: 0 as number
-	};
-}
+export const registerNumberField: RegisterField<number> = (defaultValue, extra) => ({
+	name: 'number',
+	defaultValue,
+	extra
+});
 
-const textField = createField('text', 'string');
-const numberField = createField('number', 'number');
-const iconField = createField('icon', 'string');
-const colorField = createField('color', 'string');
-
-export const fields = {
-	text: textField,
-	number: numberField,
-	icon: iconField,
-	color: colorField
-};
+export const registerSelectField: RegisterField<string, { options: string[] }> = (
+	defaultValue,
+	extra
+) => ({
+	name: 'select',
+	defaultValue,
+	extra
+});

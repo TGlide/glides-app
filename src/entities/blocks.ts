@@ -1,11 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Field, fields } from './fields';
+import {
+	FieldRegistry,
+	registerNumberField,
+	registerSelectField,
+	registerTextField
+} from './fields';
 
 // Base
-export type BlockRegistry<F extends Record<string, Field> = Record<string, Field>> = {
-	name: string;
-	fields: F;
-};
+export type BlockRegistry<F extends Record<string, FieldRegistry> = Record<string, FieldRegistry>> =
+	{
+		name: string;
+		fields: F;
+	};
 
 export type Block<R extends BlockRegistry<any> = BlockRegistry<any>> = {
 	name: R['name'];
@@ -28,7 +34,10 @@ export function isBlock(block: unknown): block is Block {
 	);
 }
 
-function registerBlock<F extends Record<string, Field>>(name: string, fields: F): BlockRegistry<F> {
+function registerBlock<F extends Record<string, FieldRegistry>>(
+	name: string,
+	fields: F
+): BlockRegistry<F> {
 	return {
 		name,
 		fields
@@ -39,7 +48,7 @@ export function parseBlockRegistry<R extends BlockRegistry>(registry: R): Block<
 	return {
 		name: registry.name,
 		fields: Object.entries(registry.fields).reduce((acc, [key, field]) => {
-			acc[key] = field.return_type;
+			acc[key] = field.defaultValue;
 			return acc;
 		}, {} as any)
 	};
@@ -47,15 +56,15 @@ export function parseBlockRegistry<R extends BlockRegistry>(registry: R): Block<
 
 // Blocks
 const TextBlockRegister = registerBlock('text', {
-	text: fields.text,
-	fontSize: fields.number
+	text: registerTextField('Text'),
+	fontSize: registerNumberField(16)
 });
 
 export type TextBlock = Block<typeof TextBlockRegister>;
 
 const IconBlockRegister = registerBlock('icon', {
-	icon: fields.icon,
-	color: fields.color
+	icon: registerSelectField('icon', { options: ['icon1', 'icon2'] }),
+	color: registerTextField('#000000')
 });
 
 export type IconBlock = Block<typeof IconBlockRegister>;

@@ -1,7 +1,7 @@
 import dynamic from 'next/dynamic';
 import React, { ComponentType } from 'react';
 
-import { Field as FieldType } from 'entities/fields';
+import { FieldRegistry as FieldType } from 'entities/fields';
 
 export type FieldProps = {
 	field: FieldType;
