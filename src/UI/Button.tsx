@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ButtonHTMLAttributes } from 'react';
 import styled from 'styled-components';
 
 import { ThemeObj } from 'styles/theme';
@@ -12,6 +12,7 @@ type ButtonProps = {
 	variant?: 'accent' | 'danger' | 'accent';
 	outline?: boolean;
 	size?: 's' | 'm';
+	type?: ButtonHTMLAttributes<HTMLButtonElement>['type'];
 };
 
 type Colors = {

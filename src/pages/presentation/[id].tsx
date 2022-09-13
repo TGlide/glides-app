@@ -30,6 +30,7 @@ const Presentation = () => {
 		queryClient.refetchQueries(['presentation.get']);
 	};
 
+	// TODO: Fix invalid IDs
 	if (isLoading || !!error || !data || !id) {
 		return <NetworkState loading={isLoading} error={!!error || !id} />;
 	}

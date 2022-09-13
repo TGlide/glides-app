@@ -1,4 +1,5 @@
-import { Input } from 'UI/Input';
+import { useFormContext } from 'react-hook-form';
+
 import { Select } from 'UI/Select';
 import { SelectField as TSelectField } from 'entities/fields';
 
@@ -8,9 +9,11 @@ type SelectFieldProps = Omit<FieldProps, 'field'> & {
 	field: TSelectField;
 };
 
-const SelectField = ({ value, field, ...props }: SelectFieldProps) => {
+const SelectField = ({ field, name, ...props }: SelectFieldProps) => {
+	const { register } = useFormContext();
+
 	return (
-		<Select value={value} {...props}>
+		<Select {...register(name)} {...props}>
 			{field.extra?.options.map((option) => (
 				<option key={option} value={option}>
 					{option}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ForwardedRef, forwardRef } from 'react';
 import styled from 'styled-components';
 
 import { Label } from './Text';
@@ -6,26 +6,25 @@ import { Label } from './Text';
 type SelectProps = {
 	className?: string;
 	value?: string;
-	onChange?: (value: string) => void;
+	onChange?: HTMLSelectElement['onchange'];
 	children?: React.ReactNode;
 	type?: HTMLSelectElement['type'];
 	label?: string;
 };
 
-export const Select = ({ label, onChange, ...props }: SelectProps) => {
-	const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-		onChange?.(e.target.value);
-	};
-
+export const Select = forwardRef(function Select(
+	{ label, onChange, ...props }: SelectProps,
+	ref: ForwardedRef<HTMLSelectElement>
+) {
 	return (
 		<Wrapper>
 			{label && <Label>{label}</Label>}
-			<StyledSelect onInput={handleChange} {...props}>
+			<StyledSelect ref={ref} {...props}>
 				{props.children}
 			</StyledSelect>
 		</Wrapper>
 	);
-};
+});
 
 const Wrapper = styled.div`
 	> :not(:first-child) {

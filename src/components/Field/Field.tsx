@@ -6,9 +6,8 @@ export type FieldProps = {
 	// it's a dynamic component
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	field: any;
-	value?: string;
-	onChange: (value: string) => void;
 	label?: string;
+	name: string;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ForwardedRef, forwardRef } from 'react';
 import styled from 'styled-components';
 
 import { Label } from './Text';
@@ -6,23 +6,22 @@ import { Label } from './Text';
 type InputProps = {
 	className?: string;
 	value?: string;
-	onChange?: (value: string) => void;
+	onChange?: HTMLInputElement['onchange'];
 	type?: HTMLInputElement['type'];
 	label?: string;
 };
 
-export const Input = ({ label, onChange, ...props }: InputProps) => {
-	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		onChange?.(e.target.value);
-	};
-
+export const Input = forwardRef(function Input(
+	{ label, onChange, ...props }: InputProps,
+	ref: ForwardedRef<HTMLInputElement>
+) {
 	return (
 		<Wrapper>
 			{label && <Label>{label}</Label>}
-			<StyledInput onInput={handleChange} {...props} />
+			<StyledInput ref={ref} {...props} />
 		</Wrapper>
 	);
-};
+});
 
 const Wrapper = styled.div`
 	> :not(:first-child) {
