@@ -1,5 +1,5 @@
-import { Add16Regular } from '@fluentui/react-icons';
 import { useState } from 'react';
+import { Plus } from 'react-feather';
 import { useQueryClient } from 'react-query';
 import styled from 'styled-components';
 
@@ -17,7 +17,7 @@ const Presentation = () => {
 	const id = useStringQuery('id');
 	const queryClient = useQueryClient();
 	const { data, error, isLoading } = trpc.useQuery(['presentation.get', { id: id ?? '' }], {
-		enabled: !!id
+		enabled: !!id,
 	});
 	const addSlideMutation = trpc.useMutation('slide.create');
 
@@ -41,7 +41,7 @@ const Presentation = () => {
 			<Wrapper>
 				<Slides>
 					{/* TODO: Make sticky */}
-					<AddSlide iconLeft={<Add16Regular />} fullWidth onClick={addSlide}>
+					<AddSlide iconLeft={<Plus />} fullWidth onClick={addSlide}>
 						Add slide
 					</AddSlide>
 					{data.slides.map((slide, index) => {

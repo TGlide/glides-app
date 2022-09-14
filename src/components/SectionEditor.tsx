@@ -1,11 +1,6 @@
-import {
-	ChevronDown16Filled,
-	ChevronRight16Filled,
-	Delete16Filled,
-	Save16Filled,
-} from '@fluentui/react-icons';
-import React, { useState } from 'react';
-import { Controller, FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import { useState } from 'react';
+import { ChevronDown, ChevronRight, Delete, Save } from 'react-feather';
+import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import styled from 'styled-components';
 
 import { Button } from 'UI/Button';
@@ -64,7 +59,7 @@ export const SectionEditor = ({ block, onSave, onDelete }: SectionProps) => {
 	return (
 		<StyledSection>
 			<Header onClick={() => setOpen((prev) => !prev)}>
-				{open ? <ChevronDown16Filled /> : <ChevronRight16Filled />}
+				{open ? <ChevronDown /> : <ChevronRight />}
 				<Body>{block.name}</Body>
 			</Header>
 			<FormProvider {...methods}>
@@ -74,10 +69,10 @@ export const SectionEditor = ({ block, onSave, onDelete }: SectionProps) => {
 							<Field field={field} key={key} label={formatCamelCase(key)} name={key} />
 						))}
 						<ContentButtons>
-							<Button iconLeft={<Save16Filled />} onClick={handleSubmit(onSubmit)}>
+							<Button iconLeft={<Save />} onClick={handleSubmit(onSubmit)}>
 								Save
 							</Button>
-							<Button iconLeft={<Delete16Filled />} variant="danger" outline onClick={onDelete}>
+							<Button iconLeft={<Delete />} variant="danger" outline onClick={onDelete}>
 								Delete
 							</Button>
 						</ContentButtons>

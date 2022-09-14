@@ -1,5 +1,5 @@
-import { Delete16Filled, Dismiss16Filled } from '@fluentui/react-icons';
 import React from 'react';
+import { X } from 'react-feather';
 import styled from 'styled-components';
 
 import { Button } from 'UI/Button';
@@ -19,12 +19,7 @@ export const Modal = ({ title, children, open, setOpen }: ModalProps) => {
 			<Card>
 				<CardHeader>
 					<Title>{title}</Title>
-					<Button
-						iconLeft={<Dismiss16Filled />}
-						variant="danger"
-						size="s"
-						onClick={() => setOpen(false)}
-					/>
+					<Button iconLeft={<X />} variant="danger" size="s" onClick={() => setOpen(false)} />
 				</CardHeader>
 				<CardBody>{children}</CardBody>
 			</Card>

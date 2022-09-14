@@ -39,28 +39,28 @@ const getColorsFactory = (variant: ButtonProps['variant'], outline: ButtonProps[
 						border: {
 							default: theme.colors.danger,
 							hover: theme.colors.dangerDark,
-							active: theme.colors.dangerDarker
+							active: theme.colors.dangerDarker,
 						},
 						text: theme.colors.danger,
 						background: {
 							default: 'transparent',
 							hover: 'transparent',
-							active: 'transparent'
-						}
+							active: 'transparent',
+						},
 					};
 				default:
 					return {
 						border: {
 							default: theme.colors.border,
 							hover: theme.colors.borderHover,
-							active: theme.colors.borderActive
+							active: theme.colors.borderActive,
 						},
 						text: theme.colors.primary,
 						background: {
 							default: 'transparent',
 							hover: 'transparent',
-							active: 'transparent'
-						}
+							active: 'transparent',
+						},
 					};
 			}
 		} else {
@@ -70,28 +70,28 @@ const getColorsFactory = (variant: ButtonProps['variant'], outline: ButtonProps[
 						border: {
 							default: theme.colors.danger,
 							hover: theme.colors.dangerDark,
-							active: theme.colors.dangerDarker
+							active: theme.colors.dangerDarker,
 						},
 						text: theme.colors.dangerForeground,
 						background: {
 							default: theme.colors.danger,
 							hover: theme.colors.dangerDark,
-							active: theme.colors.dangerDarker
-						}
+							active: theme.colors.dangerDarker,
+						},
 					};
 				default:
 					return {
 						border: {
 							default: theme.colors.border,
 							hover: theme.colors.borderHover,
-							active: theme.colors.borderActive
+							active: theme.colors.borderActive,
 						},
 						text: theme.colors.primary,
 						background: {
 							default: 'transparent',
 							hover: 'transparent',
-							active: 'transparent'
-						}
+							active: 'transparent',
+						},
 					};
 			}
 		}
@@ -155,4 +155,11 @@ const StyledButton = styled.button<{
 const IconLeft = styled.div`
 	display: grid;
 	place-items: center;
+	width: 1rem;
+	height: 1rem;
+
+	& > svg {
+		width: 100%;
+		height: 100%;
+	}
 `;

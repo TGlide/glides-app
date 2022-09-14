@@ -1,4 +1,4 @@
-import { Add16Regular } from '@fluentui/react-icons';
+import { Plus } from 'react-feather';
 import styled from 'styled-components';
 
 type AddPresentationProps = {
@@ -37,7 +37,7 @@ const Wrapper = styled.button`
 	}
 `;
 
-const AddIcon = styled(Add16Regular)`
+const AddIcon = styled(Plus)`
 	width: 2.75rem;
 	height: 2.75rem;
 `;

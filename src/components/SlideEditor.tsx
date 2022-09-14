@@ -1,12 +1,6 @@
-import {
-	Add16Filled,
-	Add16Regular,
-	Add20Regular,
-	Add28Regular,
-	Delete16Filled,
-} from '@fluentui/react-icons';
 import { Slide } from '@prisma/client';
 import React from 'react';
+import { Plus, Trash } from 'react-feather';
 import { useQueryClient } from 'react-query';
 import styled from 'styled-components';
 
@@ -117,18 +111,13 @@ export const SlideEditor = ({ slideId }: EditorProps) => {
 							/>
 						);
 					})}
-					<Button iconLeft={<Add16Filled />} fullWidth onClick={AddSectionModal.toggle}>
+					<Button iconLeft={<Plus />} fullWidth onClick={AddSectionModal.toggle}>
 						Add section
 					</Button>
 				</Sections>
 
 				{/* TODO: Confirm deletion modal */}
-				<DeleteButton
-					iconLeft={<Delete16Filled />}
-					variant="danger"
-					fullWidth
-					onClick={handleDelete}
-				>
+				<DeleteButton iconLeft={<Trash />} variant="danger" fullWidth onClick={handleDelete}>
 					Delete slide
 				</DeleteButton>
 			</Wrapper>

@@ -1,5 +1,5 @@
-import { ArrowSync16Filled, EmojiSad16Filled } from '@fluentui/react-icons';
 import React from 'react';
+import { Frown, Loader } from 'react-feather';
 import styled, { keyframes } from 'styled-components';
 
 import { Body } from 'UI/Text';
@@ -14,7 +14,7 @@ export const NetworkState = ({ loading, error }: NetworkStateProps) => {
 		<Wrapper>
 			{loading && (
 				<Spin>
-					<ArrowSync16Filled />
+					<Loader />
 				</Spin>
 			)}
 			{error && (
@@ -44,7 +44,7 @@ const spin = keyframes`
 	}
 `;
 
-const Spin = styled(ArrowSync16Filled)`
+const Spin = styled('div')`
 	animation: ${spin} 1s linear infinite;
 	width: 4rem;
 	height: 4rem;
@@ -57,7 +57,7 @@ const Error = styled.div`
 	color: ${({ theme }) => theme.colors.danger};
 `;
 
-const Sad = styled(EmojiSad16Filled)`
+const Sad = styled(Frown)`
 	width: 4rem;
 	height: 4rem;
 	margin-bottom: 1rem;

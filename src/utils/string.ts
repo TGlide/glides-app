@@ -5,3 +5,7 @@ export const capitalize = (str: string) => {
 export const formatCamelCase = (str: string) => {
 	return capitalize(str.replace(/([a-z])([A-Z])/g, '$1 $2'));
 };
+
+export const isLowerCase = (str: string) => {
+	return str === str.toLowerCase();
+};

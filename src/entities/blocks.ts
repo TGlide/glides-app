@@ -6,6 +6,7 @@ import {
 	registerSelectField,
 	registerTextField,
 } from './fields';
+import { iconNames } from './icon';
 
 // Base
 export type BlockRegistry<F extends Record<string, FieldRegistry> = Record<string, FieldRegistry>> =
@@ -70,7 +71,7 @@ const TextBlockRegister = registerBlock('text', {
 export type TextBlock = Block<typeof TextBlockRegister>;
 
 const IconBlockRegister = registerBlock('icon', {
-	icon: registerSelectField('icon', { options: ['icon1', 'icon2'] }),
+	icon: registerSelectField('icon', { options: iconNames }),
 	color: registerTextField('#000000'),
 });
 

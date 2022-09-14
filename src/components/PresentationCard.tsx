@@ -1,5 +1,5 @@
-import { CalendarEdit16Regular } from '@fluentui/react-icons';
 import dayjs from 'dayjs';
+import { Calendar } from 'react-feather';
 import styled from 'styled-components';
 
 import { Body, Meta } from 'UI/Text';
@@ -16,7 +16,7 @@ export const PresentationCard = ({ title, editedAt, onClick }: PresentationProps
 			<Cover src="https://visme.co/blog/wp-content/uploads/2019/08/presentation-slides-Business-Annual-Report-Template.jpg" />
 			<Title>{title}</Title>
 			<MetaWrapper>
-				<CalendarEdit16Regular />
+				<Calendar />
 				<Meta>{dayjs(editedAt).format('DD/MM/YYYY')}</Meta>
 			</MetaWrapper>
 		</Wrapper>

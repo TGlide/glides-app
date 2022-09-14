@@ -1,7 +1,7 @@
-import { Delete16Filled } from '@fluentui/react-icons';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { ChangeEvent, useState } from 'react';
+import { Trash } from 'react-feather';
 import { useQueryClient } from 'react-query';
 import styled from 'styled-components';
 
@@ -50,7 +50,7 @@ export const PresentationTopBar = ({ presentationId }: PresentationTopBarProps) 
 					</Clickable>
 				</Link>
 				<EditTitle value={title} onInput={handleTitleInput} onBlur={handleTitleBlur} />
-				<DeleteButton iconLeft={<Delete16Filled />} variant="danger" onClick={handleDelete}>
+				<DeleteButton iconLeft={<Trash />} variant="danger" onClick={handleDelete}>
 					Delete
 				</DeleteButton>
 			</Wrapper>
