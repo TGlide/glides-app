@@ -15,10 +15,11 @@ export const Components: Record<string, ComponentType<FieldProps>> = {
 	text: dynamic(() => import('./TextField')),
 	number: dynamic(() => import('./NumberField')),
 	select: dynamic(() => import('./SelectField')),
-	blockArray: dynamic(() => import('./BlockArrayField'))
+	blockArray: dynamic(() => import('./BlockArrayField')),
 };
 
 export const Field = (props: FieldProps) => {
+	console.log(props.name);
 	const Component = Components[props.field.name];
 
 	if (typeof Component !== 'undefined') {

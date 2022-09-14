@@ -80,11 +80,16 @@ export type IconBlock = Block<typeof IconBlockRegister>;
 const FeatureBlockRegister = registerBlock('feature', {
 	icon: registerBlockArrayField([], { allowedBlocks: ['icon'], max: 1 }),
 	title: registerTextField('Title'),
+	body: registerTextField('Body'),
 });
+
+export type FeatureBlock = Block<typeof FeatureBlockRegister>;
 
 const GridBlockRegister = registerBlock('grid', {
 	features: registerBlockArrayField([], { allowedBlocks: ['feature'], max: 3 }),
 });
+
+export type GridBlock = Block<typeof GridBlockRegister>;
 
 export const blockRegistriesArr = [
 	TextBlockRegister,

@@ -11,6 +11,8 @@ export type SectionProps = {
 export const Components: Record<string, ComponentType<{ block: any }>> = {
 	text: dynamic(() => import('./TextSection')),
 	icon: dynamic(() => import('./IconSection')),
+	feature: dynamic(() => import('./FeatureSection')),
+	grid: dynamic(() => import('./GridSection')),
 };
 
 export const Section = (props: SectionProps) => {

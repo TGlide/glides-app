@@ -12,11 +12,7 @@ type NetworkStateProps = {
 export const NetworkState = ({ loading, error }: NetworkStateProps) => {
 	return (
 		<Wrapper>
-			{loading && (
-				<Spin>
-					<Loader />
-				</Spin>
-			)}
+			{loading && <Spin />}
 			{error && (
 				<Error>
 					<Sad />
@@ -44,7 +40,7 @@ const spin = keyframes`
 	}
 `;
 
-const Spin = styled('div')`
+const Spin = styled(Loader)`
 	animation: ${spin} 1s linear infinite;
 	width: 4rem;
 	height: 4rem;

@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import styled from 'styled-components';
 
@@ -5,7 +6,7 @@ import { Flex } from 'UI/Box';
 import { Button } from 'UI/Button';
 import { useModal } from 'UI/Modal';
 import { SectionEditor } from 'components/SectionEditor';
-import { Block, blockRegistries, isBlock, parseBlockRegistry } from 'entities/blocks';
+import { blockRegistries, isBlock, parseBlockRegistry } from 'entities/blocks';
 import { BlockArrayField as TBlockArrayField } from 'entities/fields';
 import { capitalize } from 'utils/string';
 
@@ -16,20 +17,25 @@ type BlockArrayFieldProps = Omit<FieldProps, 'field'> & {
 };
 
 const BlockArrayField = ({ field, name, label }: BlockArrayFieldProps) => {
-	const { control } = useFormContext();
-	const { fields, append, update, remove } = useFieldArray({
+	const { control, setValue } = useFormContext();
+	const { fields, append, remove } = useFieldArray({
 		control,
 		name,
 	});
 	const AddBlock = useModal();
 
 	const filteredBlockRegs = Object.entries(blockRegistries).filter(([blockName]) => {
-		return field.extra?.allowedBlocks.includes(blockName) ?? true;
+		return field?.extra?.allowedBlocks?.includes(blockName) ?? true;
 	});
 
-	const onBlockSave = (index: number, block: Block) => {
-		update(index, block);
-	};
+	useEffect(
+		function initialize() {
+			fields.forEach((block, index) => {
+				setValue(`${name}[${index}]`, block);
+			});
+		},
+		[fields, name, setValue],
+	);
 
 	const maxBlocks = field.extra?.max ?? Infinity;
 
@@ -44,9 +50,9 @@ const BlockArrayField = ({ field, name, label }: BlockArrayFieldProps) => {
 						return (
 							<SectionEditor
 								block={item}
-								onSave={(b) => onBlockSave(index, b)}
 								onDelete={() => remove(index)}
 								key={item.id}
+								nestedKey={`${name}[${index}].fields`}
 							/>
 						);
 					})}

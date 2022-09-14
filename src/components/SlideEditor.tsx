@@ -1,15 +1,12 @@
-import { Slide } from '@prisma/client';
-import React from 'react';
 import { Plus, Trash } from 'react-feather';
 import { useQueryClient } from 'react-query';
 import styled from 'styled-components';
 
 import { Button } from 'UI/Button';
 import { useModal } from 'UI/Modal';
-import { Heading, SubHeading, Title } from 'UI/Text';
-import { Block, BlockRegistry, blockRegistries, parseBlockRegistry } from 'entities/blocks';
+import { SubHeading, Title } from 'UI/Text';
+import { Block, blockRegistries, BlockRegistry, parseBlockRegistry } from 'entities/blocks';
 import { parseSlideContent } from 'entities/slide';
-import { objectEntries } from 'utils/object';
 import { trpc } from 'utils/trpc';
 
 import { SectionEditor } from './SectionEditor';
@@ -146,6 +143,7 @@ const Wrapper = styled.div`
 `;
 
 const Sections = styled.div`
+	padding-bottom: 1rem;
 	margin-top: 1rem;
 
 	& > *:not(:first-child) {

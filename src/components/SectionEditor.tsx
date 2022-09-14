@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { ChevronDown, ChevronRight, Delete, Save } from 'react-feather';
-import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import { useCallback, useState } from 'react';
+import { ChevronDown, ChevronRight, Save, Trash } from 'react-feather';
+import { FormProvider, SubmitHandler, useForm, UseFormReturn } from 'react-hook-form';
 import styled from 'styled-components';
 
 import { Button } from 'UI/Button';
@@ -13,11 +13,12 @@ import { formatCamelCase } from 'utils/string';
 
 type SectionProps = {
 	block: Block;
-	onSave: (block: Block) => void;
+	onSave?: (block: Block) => void;
 	onDelete: () => void;
+	nestedKey?: string;
 };
 
-export const SectionEditor = ({ block, onSave, onDelete }: SectionProps) => {
+export const SectionEditor = ({ block, onSave, onDelete, nestedKey }: SectionProps) => {
 	const [open, setOpen] = useState(false);
 	const blockRegistry = blockRegistries[block.name];
 	const methods = useForm({
@@ -32,27 +33,30 @@ export const SectionEditor = ({ block, onSave, onDelete }: SectionProps) => {
 
 	const { handleSubmit } = methods;
 
-	const onSubmit: SubmitHandler<Record<string, string>> = (data) => {
-		if (!blockRegistry?.fields) return;
+	const onSubmit: SubmitHandler<Record<string, string>> = useCallback(
+		(data) => {
+			if (!blockRegistry?.fields) return;
 
-		const parsedFormData = objectEntries(blockRegistry.fields)?.reduce((acc, [name, field]) => {
-			const formValue = data[name] ?? '';
-			const parsedValue = typeof field.defaultValue === 'number' ? Number(formValue) : formValue;
+			const parsedFormData = objectEntries(blockRegistry.fields)?.reduce((acc, [name, field]) => {
+				const formValue = data[name] ?? '';
+				const parsedValue = typeof field.defaultValue === 'number' ? Number(formValue) : formValue;
 
-			return {
-				...acc,
-				[name]: parsedValue,
-			};
-		}, {} as Record<string, string | number>);
+				return {
+					...acc,
+					[name]: parsedValue,
+				};
+			}, {} as Record<string, string | number>);
 
-		onSave({
-			...block,
-			fields: {
-				...block.fields,
-				...parsedFormData,
-			},
-		});
-	};
+			onSave?.({
+				...block,
+				fields: {
+					...block.fields,
+					...parsedFormData,
+				},
+			});
+		},
+		[block, blockRegistry?.fields, onSave],
+	);
 
 	if (!blockRegistry) return null;
 
@@ -62,34 +66,52 @@ export const SectionEditor = ({ block, onSave, onDelete }: SectionProps) => {
 				{open ? <ChevronDown /> : <ChevronRight />}
 				<Body>{block.name}</Body>
 			</Header>
-			<FormProvider {...methods}>
+
+			<FormWrapper methods={methods} nestedKey={nestedKey}>
 				{open && (
 					<Content>
-						{Object.entries(blockRegistry.fields).map(([key, field]) => (
-							<Field field={field} key={key} label={formatCamelCase(key)} name={key} />
-						))}
+						{Object.entries(blockRegistry.fields).map(([key, field]) => {
+							const name = nestedKey ? `${nestedKey}.${key}` : key;
+							return <Field field={field} key={key} label={formatCamelCase(key)} name={name} />;
+						})}
 						<ContentButtons>
-							<Button iconLeft={<Save />} onClick={handleSubmit(onSubmit)}>
-								Save
-							</Button>
-							<Button iconLeft={<Delete />} variant="danger" outline onClick={onDelete}>
+							{!nestedKey && (
+								<Button iconLeft={<Save />} onClick={handleSubmit(onSubmit)}>
+									Save
+								</Button>
+							)}
+							<Button iconLeft={<Trash />} variant="danger" outline onClick={onDelete}>
 								Delete
 							</Button>
 						</ContentButtons>
 					</Content>
 				)}
-			</FormProvider>
+			</FormWrapper>
 		</StyledSection>
 	);
 };
 
-const StyledSection = styled.div`
-	background-color: ${({ theme }) => alpha(theme.colors.accent, 0.05)};
-	border-radius: ${({ theme }) => theme.radii.m};
+type FormWrapperProps = {
+	methods: UseFormReturn;
+	nestedKey?: string;
+	children: React.ReactNode;
+};
 
-	padding: 1rem;
-	width: 100%;
-`;
+const FormWrapper = ({ methods, nestedKey, children }: FormWrapperProps) => {
+	if (nestedKey) {
+		return <div>{children}</div>;
+	}
+
+	return <FormProvider {...methods}>{children}</FormProvider>;
+};
+
+const StyledSection = styled.div(({ theme }) => ({
+	border: `1px solid ${alpha(theme.colors.accent, 0.25)}`,
+	borderRadius: theme.radii.m,
+
+	padding: '1rem',
+	width: '100%',
+}));
 
 const Header = styled.button`
 	display: flex;

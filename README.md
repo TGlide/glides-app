@@ -3,11 +3,11 @@
 - [X] Text preview
 - [X] Block Array field
 - [X] Icon preview
-- [ ] Grid section
-- [ ] Link sharing
-- [ ] Thumbnails
-- [ ] Export to PDF
-- [ ] Optimistic updates
+- [X] Grid section
 - [ ] Section reordering
+- [ ] Link sharing
+- [ ] Export to HTML/PDF
+- [ ] Optimistic updates
 - [ ] Migrate to style objects
+- [ ] Responsive (?)
 - [ ] Complete code comment TODOs
