@@ -1,4 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { v4 as uuidv4 } from 'uuid';
+
 import {
 	FieldRegistry,
 	registerBlockArrayField,
@@ -22,6 +24,7 @@ export type Block<R extends BlockRegistry<any> = BlockRegistry<any>> = {
 	} & {
 		[key: string]: any;
 	};
+	uid: string;
 };
 
 export function isBlock(block: unknown): block is Block {
@@ -53,6 +56,7 @@ export function parseBlockRegistry<R extends BlockRegistry>(registry: R): Block<
 			acc[key] = field.defaultValue;
 			return acc;
 		}, {} as any),
+		uid: uuidv4(),
 	};
 }
 

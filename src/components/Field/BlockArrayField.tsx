@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import styled from 'styled-components';
 
@@ -17,8 +16,8 @@ type BlockArrayFieldProps = Omit<FieldProps, 'field'> & {
 };
 
 const BlockArrayField = ({ field, name, label }: BlockArrayFieldProps) => {
-	const { control, setValue } = useFormContext();
-	const { fields, append, remove } = useFieldArray({
+	const { control } = useFormContext();
+	const { fields, append, remove, swap } = useFieldArray({
 		control,
 		name,
 	});
@@ -28,16 +27,14 @@ const BlockArrayField = ({ field, name, label }: BlockArrayFieldProps) => {
 		return field?.extra?.allowedBlocks?.includes(blockName) ?? true;
 	});
 
-	useEffect(
-		function initialize() {
-			fields.forEach((block, index) => {
-				setValue(`${name}[${index}]`, block);
-			});
-		},
-		[fields, name, setValue],
-	);
-
 	const maxBlocks = field.extra?.max ?? Infinity;
+
+	const handleReorder = (direction: 'up' | 'down', index: number) => {
+		if (direction === 'up' && index === 0) return;
+		if (direction === 'down' && index === fields.length - 1) return;
+
+		swap(index, direction === 'up' ? index - 1 : index + 1);
+	};
 
 	return (
 		<>
@@ -49,6 +46,7 @@ const BlockArrayField = ({ field, name, label }: BlockArrayFieldProps) => {
 
 						return (
 							<SectionEditor
+								onReorder={(direction) => handleReorder(direction, index)}
 								block={item}
 								onDelete={() => remove(index)}
 								key={item.id}

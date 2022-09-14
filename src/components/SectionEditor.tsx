@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import { ChevronDown, ChevronRight, Save, Trash } from 'react-feather';
+import { ChevronDown, ChevronRight, ChevronUp, Save, Trash } from 'react-feather';
 import { FormProvider, SubmitHandler, useForm, UseFormReturn } from 'react-hook-form';
 import styled from 'styled-components';
 
@@ -15,10 +15,11 @@ type SectionProps = {
 	block: Block;
 	onSave?: (block: Block) => void;
 	onDelete: () => void;
+	onReorder: (direction: 'up' | 'down') => void;
 	nestedKey?: string;
 };
 
-export const SectionEditor = ({ block, onSave, onDelete, nestedKey }: SectionProps) => {
+export const SectionEditor = ({ block, onSave, onDelete, nestedKey, onReorder }: SectionProps) => {
 	const [open, setOpen] = useState(false);
 	const blockRegistry = blockRegistries[block.name];
 	const methods = useForm({
@@ -62,9 +63,19 @@ export const SectionEditor = ({ block, onSave, onDelete, nestedKey }: SectionPro
 
 	return (
 		<StyledSection>
-			<Header onClick={() => setOpen((prev) => !prev)}>
-				{open ? <ChevronDown /> : <ChevronRight />}
-				<Body>{block.name}</Body>
+			<Header>
+				<button className="toggle" onClick={() => setOpen((prev) => !prev)}>
+					{open ? <ChevronDown /> : <ChevronRight />}
+					<Body>{block.name}</Body>
+				</button>
+				<Reorder>
+					<button onClick={() => onReorder('up')}>
+						<ChevronUp />
+					</button>
+					<button onClick={() => onReorder('down')}>
+						<ChevronDown />
+					</button>
+				</Reorder>
 			</Header>
 
 			<FormWrapper methods={methods} nestedKey={nestedKey}>
@@ -113,21 +124,28 @@ const StyledSection = styled.div(({ theme }) => ({
 	width: '100%',
 }));
 
-const Header = styled.button`
+const Header = styled.div`
 	display: flex;
+	justify-content: space-between;
 	align-items: center;
+
 	width: 100%;
-	gap: 0.5rem;
 
-	color: ${({ theme }) => theme.colors.primary};
-	cursor: pointer;
+	& .toggle {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
 
-	text-transform: capitalize;
+		color: ${({ theme }) => theme.colors.primary};
+		cursor: pointer;
 
-	transition: color ${({ theme }) => theme.transition.appearance};
+		text-transform: capitalize;
 
-	&:hover {
-		color: ${({ theme }) => theme.colors.accent};
+		transition: color ${({ theme }) => theme.transition.appearance};
+
+		&:hover {
+			color: ${({ theme }) => theme.colors.accent};
+		}
 	}
 `;
 
@@ -146,3 +164,26 @@ const ContentButtons = styled.div`
 		flex: 1;
 	}
 `;
+
+const Reorder = styled('div')(({ theme }) => ({
+	display: 'flex',
+	flexDirection: 'column',
+
+	marginLeft: 'auto',
+
+	'& > button': {
+		display: 'grid',
+		placeItems: 'center',
+
+		color: theme.colors.primary,
+		cursor: 'pointer',
+
+		'&:hover': {
+			color: theme.colors.accent,
+		},
+
+		'& > svg': {
+			height: '1rem',
+		},
+	},
+}));

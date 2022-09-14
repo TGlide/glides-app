@@ -4,7 +4,7 @@
 - [X] Block Array field
 - [X] Icon preview
 - [X] Grid section
-- [ ] Section reordering
+- [X] Section reordering
 - [ ] Link sharing
 - [ ] Export to HTML/PDF
 - [ ] Optimistic updates

@@ -90,6 +90,30 @@ export const SlideEditor = ({ slideId }: EditorProps) => {
 		queryClient.invalidateQueries(['slide.get']);
 	};
 
+	const handleReorderBlock = async (direction: 'up' | 'down', index: number) => {
+		if (!slideId) return;
+
+		if (direction === 'up' && index === 0) return;
+		if (direction === 'down' && index === content.blocks.length - 1) return;
+
+		const newIndex = direction === 'up' ? index - 1 : index + 1;
+		const newContent = {
+			...content,
+			blocks: content.blocks.map((b, i) => {
+				if (i === index) return content.blocks[newIndex];
+				if (i === newIndex) return content.blocks[index];
+				return b;
+			}),
+		};
+
+		await updateMutation.mutateAsync({
+			id: slideId,
+			content: newContent,
+		});
+
+		queryClient.invalidateQueries(['slide.get']);
+	};
+
 	if (!slide) return null;
 
 	return (
@@ -103,6 +127,7 @@ export const SlideEditor = ({ slideId }: EditorProps) => {
 							<SectionEditor
 								onSave={(b) => handleSaveBlock(b, index)}
 								onDelete={() => handleDeleteBlock(index)}
+								onReorder={(direction) => handleReorderBlock(direction, index)}
 								block={block}
 								key={index}
 							/>

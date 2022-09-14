@@ -25,6 +25,6 @@ export function parseSlideContent(content: Prisma.JsonValue | undefined): SlideC
 	}
 
 	return {
-		blocks: []
+		blocks: [],
 	};
 }
