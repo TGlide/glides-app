@@ -1,4 +1,4 @@
-import { Block, blockRegistriesArr } from './blocks';
+import { Block } from './blocks';
 
 export type FieldRegistry<T = unknown, Extra = unknown> = {
 	name: string;
@@ -48,7 +48,7 @@ export type SelectField = ExtractFieldRegistry<typeof registerSelectField>;
 
 export const registerBlockArrayField: RegisterField<
 	Block[],
-	{ allowedBlocks: Array<string>; max: number }
+	{ allowedBlocks?: Array<string>; max?: number }
 > = (defaultValue, extra) => ({
 	name: 'blockArray',
 	defaultValue,

@@ -81,10 +81,15 @@ const FeatureBlockRegister = registerBlock('feature', {
 	title: registerTextField('Title'),
 });
 
+const GridBlockRegister = registerBlock('grid', {
+	features: registerBlockArrayField([], { allowedBlocks: ['feature'], max: 3 }),
+});
+
 export const blockRegistriesArr = [
 	TextBlockRegister,
 	IconBlockRegister,
 	FeatureBlockRegister,
+	GridBlockRegister,
 ] as const;
 
 export const blockRegistries = blockRegistriesArr.reduce((acc, registry) => {

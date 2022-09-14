@@ -1,6 +1,7 @@
 - [X] Create presentation
 - [X] Create slides
 - [X] Text preview
+- [X] Block Array field
 - [ ] Icon preview
 - [ ] Grid section
 - [ ] Link sharing
