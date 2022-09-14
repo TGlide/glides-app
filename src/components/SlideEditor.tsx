@@ -3,7 +3,7 @@ import {
 	Add16Regular,
 	Add20Regular,
 	Add28Regular,
-	Delete16Filled
+	Delete16Filled,
 } from '@fluentui/react-icons';
 import { Slide } from '@prisma/client';
 import React from 'react';
@@ -29,7 +29,7 @@ export const SlideEditor = ({ slideId }: EditorProps) => {
 	const deleteMutation = trpc.useMutation(['slide.delete']);
 	const updateMutation = trpc.useMutation(['slide.update']);
 	const { data: slide } = trpc.useQuery(['slide.get', { id: slideId ?? '' }], {
-		enabled: !!slideId
+		enabled: !!slideId,
 	});
 	const content = parseSlideContent(slide?.content);
 
@@ -55,12 +55,12 @@ export const SlideEditor = ({ slideId }: EditorProps) => {
 
 		const newContent = {
 			...content,
-			blocks: [...content.blocks, newBlock]
+			blocks: [...content.blocks, newBlock],
 		};
 
 		await updateMutation.mutateAsync({
 			id: slideId,
-			content: newContent
+			content: newContent,
 		});
 
 		queryClient.invalidateQueries(['slide.get']);
@@ -72,12 +72,12 @@ export const SlideEditor = ({ slideId }: EditorProps) => {
 
 		const newContent = {
 			...content,
-			blocks: content.blocks.map((b, i) => (i === index ? block : b))
+			blocks: content.blocks.map((b, i) => (i === index ? block : b)),
 		};
 
 		await updateMutation.mutateAsync({
 			id: slideId,
-			content: newContent
+			content: newContent,
 		});
 
 		queryClient.invalidateQueries(['slide.get']);
@@ -88,12 +88,12 @@ export const SlideEditor = ({ slideId }: EditorProps) => {
 
 		const newContent = {
 			...content,
-			blocks: content.blocks.filter((_, i) => i !== index)
+			blocks: content.blocks.filter((_, i) => i !== index),
 		};
 
 		await updateMutation.mutateAsync({
 			id: slideId,
-			content: newContent
+			content: newContent,
 		});
 
 		queryClient.invalidateQueries(['slide.get']);
@@ -172,6 +172,6 @@ const BlockButton = styled(Button)`
 	text-transform: capitalize;
 
 	&:not(:first-child) {
-		margin-top: 1rem;
+		margin-top: 0.5rem;
 	}
 `;

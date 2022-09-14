@@ -14,7 +14,8 @@ export type FieldProps = {
 export const Components: Record<string, ComponentType<FieldProps>> = {
 	text: dynamic(() => import('./TextField')),
 	number: dynamic(() => import('./NumberField')),
-	select: dynamic(() => import('./SelectField'))
+	select: dynamic(() => import('./SelectField')),
+	blockArray: dynamic(() => import('./BlockArrayField'))
 };
 
 export const Field = (props: FieldProps) => {

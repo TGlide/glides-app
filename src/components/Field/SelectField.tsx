@@ -12,6 +12,8 @@ type SelectFieldProps = Omit<FieldProps, 'field'> & {
 const SelectField = ({ field, name, ...props }: SelectFieldProps) => {
 	const { register } = useFormContext();
 
+	console.log(field.extra);
+
 	return (
 		<Select {...register(name)} {...props}>
 			{field.extra?.options.map((option) => (

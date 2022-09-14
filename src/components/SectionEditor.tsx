@@ -2,7 +2,7 @@ import {
 	ChevronDown16Filled,
 	ChevronRight16Filled,
 	Delete16Filled,
-	Save16Filled
+	Save16Filled,
 } from '@fluentui/react-icons';
 import React, { useState } from 'react';
 import { Controller, FormProvider, SubmitHandler, useForm } from 'react-hook-form';
@@ -29,10 +29,10 @@ export const SectionEditor = ({ block, onSave, onDelete }: SectionProps) => {
 		defaultValues: objectEntries(block?.fields ?? {})?.reduce(
 			(acc, [name, field]) => ({
 				...acc,
-				[name]: field
+				[name]: field,
 			}),
-			{} as Record<string, string>
-		)
+			{} as Record<string, string>,
+		),
 	});
 
 	const { handleSubmit } = methods;
@@ -46,7 +46,7 @@ export const SectionEditor = ({ block, onSave, onDelete }: SectionProps) => {
 
 			return {
 				...acc,
-				[name]: parsedValue
+				[name]: parsedValue,
 			};
 		}, {} as Record<string, string | number>);
 
@@ -54,8 +54,8 @@ export const SectionEditor = ({ block, onSave, onDelete }: SectionProps) => {
 			...block,
 			fields: {
 				...block.fields,
-				...parsedFormData
-			}
+				...parsedFormData,
+			},
 		});
 	};
 
@@ -69,12 +69,12 @@ export const SectionEditor = ({ block, onSave, onDelete }: SectionProps) => {
 			</Header>
 			<FormProvider {...methods}>
 				{open && (
-					<Content onSubmit={handleSubmit(onSubmit)}>
+					<Content>
 						{Object.entries(blockRegistry.fields).map(([key, field]) => (
 							<Field field={field} key={key} label={formatCamelCase(key)} name={key} />
 						))}
 						<ContentButtons>
-							<Button iconLeft={<Save16Filled />} type="submit">
+							<Button iconLeft={<Save16Filled />} onClick={handleSubmit(onSubmit)}>
 								Save
 							</Button>
 							<Button iconLeft={<Delete16Filled />} variant="danger" outline onClick={onDelete}>
@@ -114,7 +114,7 @@ const Header = styled.button`
 	}
 `;
 
-const Content = styled.form`
+const Content = styled.div`
 	display: flex;
 	flex-direction: column;
 	gap: 1rem;
