@@ -14,10 +14,10 @@ export function objectFromEntries<K extends PropertyKey, V>(entries: Array<[K, V
 
 export function objectFilter<K extends PropertyKey, V>(
 	object: Partial<Record<K, V>>,
-	predicate: (key: K, value: V) => boolean
+	predicate: (key: K, value: V) => boolean,
 ): Partial<Record<K, V>> {
 	return Object.fromEntries(
-		Object.entries(object).filter(([key, value]) => predicate(key as K, value as V))
+		Object.entries(object).filter(([key, value]) => predicate(key as K, value as V)),
 	) as Partial<Record<K, V>>;
 }
 

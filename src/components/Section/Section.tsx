@@ -9,7 +9,8 @@ export type SectionProps = {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const Components: Record<string, ComponentType<{ block: any }>> = {
-	text: dynamic(() => import('./TextSection'))
+	text: dynamic(() => import('./TextSection')),
+	icon: dynamic(() => import('./IconSection')),
 };
 
 export const Section = (props: SectionProps) => {
