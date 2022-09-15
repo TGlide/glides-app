@@ -2,7 +2,6 @@ import { useFormContext } from 'react-hook-form';
 
 import { Select } from 'UI/Select';
 import { SelectField as TSelectField } from 'entities/fields';
-import { iconVariants } from 'entities/icon';
 
 import { FieldProps } from './Field';
 
@@ -12,8 +11,6 @@ type SelectFieldProps = Omit<FieldProps, 'field'> & {
 
 const SelectField = ({ field, name, ...props }: SelectFieldProps) => {
 	const { register } = useFormContext();
-
-	console.log(iconVariants);
 
 	return (
 		<Select {...register(name)} {...props}>

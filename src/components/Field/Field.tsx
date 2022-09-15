@@ -19,7 +19,6 @@ export const Components: Record<string, ComponentType<FieldProps>> = {
 };
 
 export const Field = (props: FieldProps) => {
-	console.log(props.name);
 	const Component = Components[props.field.name];
 
 	if (typeof Component !== 'undefined') {

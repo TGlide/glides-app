@@ -5,7 +5,5 @@
 - [X] Icon preview
 - [X] Grid section
 - [X] Section reordering
-- [ ] Optimistic updates
-- [ ] Reorder Slides
 - [ ] Responsive (?)
 - [ ] Complete code comment TODOs

@@ -30,7 +30,10 @@ const Presentation = () => {
 		queryClient.refetchQueries(['presentation.get']);
 	};
 
-	// TODO: Fix invalid IDs
+	const sortedSlides = data?.slides.sort((a, b) => {
+		return a.createdAt.getTime() - b.createdAt.getTime();
+	});
+
 	if (isLoading || !!error || !data || !id) {
 		return <NetworkState loading={isLoading} error={!!error || !id} />;
 	}
@@ -40,11 +43,10 @@ const Presentation = () => {
 			<PresentationTopBar presentationId={id} />
 			<Wrapper>
 				<Slides>
-					{/* TODO: Make sticky */}
 					<AddSlide iconLeft={<Plus />} fullWidth onClick={addSlide}>
 						Add slide
 					</AddSlide>
-					{data.slides.map((slide, index) => {
+					{sortedSlides?.map((slide, index) => {
 						const isSelected = index === slideIdx;
 
 						return (
