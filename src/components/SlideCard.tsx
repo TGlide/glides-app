@@ -1,11 +1,10 @@
 import styled from 'styled-components';
 
 type SlideCardProps = {
-	id: string;
 	selected?: boolean;
 };
 
-export const SlideCard = ({ id, ...props }: SlideCardProps) => {
+export const SlideCard = ({ ...props }: SlideCardProps) => {
 	return <Wrapper {...props} />;
 };
 

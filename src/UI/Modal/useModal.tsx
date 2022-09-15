@@ -1,4 +1,4 @@
-import React, { ComponentProps, useMemo, useState } from 'react';
+import { ComponentProps, useState } from 'react';
 
 import { Modal } from './Modal';
 

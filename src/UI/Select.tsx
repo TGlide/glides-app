@@ -6,14 +6,13 @@ import { Label } from './Text';
 type SelectProps = {
 	className?: string;
 	value?: string;
-	onChange?: HTMLSelectElement['onchange'];
 	children?: React.ReactNode;
 	type?: HTMLSelectElement['type'];
 	label?: string;
 };
 
 export const Select = forwardRef(function Select(
-	{ label, onChange, ...props }: SelectProps,
+	{ label, ...props }: SelectProps,
 	ref: ForwardedRef<HTMLSelectElement>,
 ) {
 	return (

@@ -2,14 +2,12 @@ import { httpBatchLink } from '@trpc/client/links/httpBatchLink';
 import { loggerLink } from '@trpc/client/links/loggerLink';
 import { withTRPC } from '@trpc/next';
 import { AppType } from 'next/dist/shared/lib/utils';
-import Link from 'next/link';
-import styled, { ThemeProvider } from 'styled-components';
+import styled from 'styled-components';
 import superjson from 'superjson';
 
 import { Theme } from 'UI/Theme';
 import { AppRouter } from 'server/router';
 import { GlobalStyle } from 'styles/global';
-import { theme } from 'styles/theme';
 
 // Fonts
 import '@fontsource/libre-baskerville';

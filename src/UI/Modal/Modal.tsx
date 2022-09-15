@@ -19,7 +19,12 @@ export const Modal = ({ title, children, open, setOpen }: ModalProps) => {
 			<Card>
 				<CardHeader>
 					<Title>{title}</Title>
-					<Button iconLeft={<X />} variant="danger" size="s" onClick={() => setOpen(false)} />
+					<Button
+						iconLeft={<X />}
+						variant="danger-outline"
+						size="s"
+						onClick={() => setOpen(false)}
+					/>
 				</CardHeader>
 				<CardBody>{children}</CardBody>
 			</Card>

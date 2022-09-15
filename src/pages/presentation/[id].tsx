@@ -43,7 +43,7 @@ const Presentation = () => {
 			<PresentationTopBar presentationId={id} />
 			<Wrapper>
 				<Slides>
-					<AddSlide iconLeft={<Plus />} fullWidth onClick={addSlide}>
+					<AddSlide variant="accent-outline" iconLeft={<Plus />} fullWidth onClick={addSlide}>
 						Add slide
 					</AddSlide>
 					{sortedSlides?.map((slide, index) => {
@@ -56,7 +56,7 @@ const Presentation = () => {
 								onClick={() => setSlideIdx(index)}
 							>
 								<p>{index + 1}</p>
-								<SlideCard id={slide.id} selected={isSelected} />
+								<SlideCard selected={isSelected} />
 							</SlideCardWrapper>
 						);
 					})}

@@ -1,5 +1,4 @@
 export const alpha = (hsla: string, percentage: number) => {
-	// TODO: use regex
 	const [h, s, l] = hsla
 		.replace('hsla(', '')
 		.replace(')', '')

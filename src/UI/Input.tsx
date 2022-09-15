@@ -6,13 +6,12 @@ import { Label } from './Text';
 type InputProps = {
 	className?: string;
 	value?: string;
-	onChange?: HTMLInputElement['onchange'];
 	type?: HTMLInputElement['type'];
 	label?: string;
 };
 
 export const Input = forwardRef(function Input(
-	{ label, onChange, ...props }: InputProps,
+	{ label, ...props }: InputProps,
 	ref: ForwardedRef<HTMLInputElement>,
 ) {
 	return (

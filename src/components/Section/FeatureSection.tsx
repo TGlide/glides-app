@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { marginTop } from 'styled-system';
 
 import { FeatureBlock } from 'entities/blocks';
 

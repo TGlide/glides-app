@@ -55,7 +55,9 @@ const BlockArrayField = ({ field, name, label }: BlockArrayFieldProps) => {
 						);
 					})}
 					{fields.length < maxBlocks && (
-						<Button onClick={() => AddBlock.toggle()}>Add block</Button>
+						<Button variant="accent-outline" onClick={() => AddBlock.toggle()}>
+							Add block
+						</Button>
 					)}
 				</Blocks>
 			</Wrapper>
@@ -63,6 +65,7 @@ const BlockArrayField = ({ field, name, label }: BlockArrayFieldProps) => {
 				<Flex flexDirection="column">
 					{filteredBlockRegs.map(([blockName, blockReg]) => (
 						<Button
+							variant="accent-outline"
 							key={blockName}
 							onClick={() => {
 								const block = parseBlockRegistry(blockReg);

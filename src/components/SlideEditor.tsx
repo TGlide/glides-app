@@ -155,19 +155,28 @@ export const SlideEditor = ({ slideId }: EditorProps) => {
 							/>
 						);
 					})}
-					<Button iconLeft={<Plus />} fullWidth onClick={AddSectionModal.toggle}>
+					<Button
+						variant="accent-outline"
+						iconLeft={<Plus />}
+						fullWidth
+						onClick={AddSectionModal.toggle}
+					>
 						Add section
 					</Button>
 				</Sections>
 
-				{/* TODO: Confirm deletion modal */}
 				<DeleteButton iconLeft={<Trash />} variant="danger" fullWidth onClick={handleDelete}>
 					Delete slide
 				</DeleteButton>
 			</Wrapper>
 			<AddSectionModal.Modal title="Add section">
 				{Object.values(blockRegistries).map((block) => (
-					<BlockButton key={block.name} fullWidth onClick={() => addBlock(block)}>
+					<BlockButton
+						variant="accent-outline"
+						key={block.name}
+						fullWidth
+						onClick={() => addBlock(block)}
+					>
 						{block.name}
 					</BlockButton>
 				))}

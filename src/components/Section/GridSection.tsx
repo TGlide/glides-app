@@ -21,7 +21,7 @@ const GridSection = ({ block }: GridSectionProps) => {
 
 export default GridSection;
 
-const Wrapper = styled('div')((props) => ({
+const Wrapper = styled('div')((_props) => ({
 	display: 'grid',
 	gap: '1rem',
 	gridTemplateColumns: 'repeat(auto-fit, minmax(min-content, 300px))',

@@ -1,7 +1,6 @@
 import React, { ButtonHTMLAttributes } from 'react';
 import styled from 'styled-components';
-
-import { ThemeObj } from 'styles/theme';
+import { variant } from 'styled-system';
 
 type ButtonProps = {
 	children?: React.ReactNode;
@@ -9,148 +8,81 @@ type ButtonProps = {
 	iconLeft?: React.ReactNode;
 	fullWidth?: boolean;
 	className?: string;
-	variant?: 'accent' | 'danger' | 'accent';
-	outline?: boolean;
+	variant: 'danger' | 'accent-outline' | 'danger-outline';
 	size?: 's' | 'm';
 	type?: ButtonHTMLAttributes<HTMLButtonElement>['type'];
 };
 
-type Colors = {
-	text: string;
-	border: {
-		default: string;
-		hover: string;
-		active: string;
-	};
-	background: {
-		default: string;
-		hover: string;
-		active: string;
-	};
-};
-
-// TODO: Improve this mess
-const getColorsFactory = (variant: ButtonProps['variant'], outline: ButtonProps['outline']) => {
-	return (theme: ThemeObj): Colors => {
-		if (outline) {
-			switch (variant) {
-				case 'danger':
-					return {
-						border: {
-							default: theme.colors.danger,
-							hover: theme.colors.dangerDark,
-							active: theme.colors.dangerDarker,
-						},
-						text: theme.colors.danger,
-						background: {
-							default: 'transparent',
-							hover: 'transparent',
-							active: 'transparent',
-						},
-					};
-				default:
-					return {
-						border: {
-							default: theme.colors.border,
-							hover: theme.colors.borderHover,
-							active: theme.colors.borderActive,
-						},
-						text: theme.colors.primary,
-						background: {
-							default: 'transparent',
-							hover: 'transparent',
-							active: 'transparent',
-						},
-					};
-			}
-		} else {
-			switch (variant) {
-				case 'danger':
-					return {
-						border: {
-							default: theme.colors.danger,
-							hover: theme.colors.dangerDark,
-							active: theme.colors.dangerDarker,
-						},
-						text: theme.colors.dangerForeground,
-						background: {
-							default: theme.colors.danger,
-							hover: theme.colors.dangerDark,
-							active: theme.colors.dangerDarker,
-						},
-					};
-				default:
-					return {
-						border: {
-							default: theme.colors.border,
-							hover: theme.colors.borderHover,
-							active: theme.colors.borderActive,
-						},
-						text: theme.colors.primary,
-						background: {
-							default: 'transparent',
-							hover: 'transparent',
-							active: 'transparent',
-						},
-					};
-			}
-		}
-	};
-};
-
-export const Button = ({
-	children,
-	iconLeft,
-	onClick,
-	variant,
-	outline,
-	...props
-}: ButtonProps) => {
-	const getColors = getColorsFactory(variant, outline);
-
-	// TODO: Add loading state
+export const Button = ({ children, iconLeft, onClick, variant, ...props }: ButtonProps) => {
 	return (
-		<StyledButton onClick={onClick} getColors={getColors} {...props}>
+		<StyledButton onClick={onClick} variant={variant} {...props}>
 			{iconLeft && <IconLeft>{iconLeft}</IconLeft>}
 			{children && <span>{children}</span>}
 		</StyledButton>
 	);
 };
 
-const StyledButton = styled.button<{
+const StyledButton = styled('button')<{
 	fullWidth?: boolean;
-	getColors: ReturnType<typeof getColorsFactory>;
 	size?: ButtonProps['size'];
 	outline?: boolean;
-}>`
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	gap: 0.5rem;
+	variant: ButtonProps['variant'];
+}>(
+	({ theme, fullWidth, size }) => ({
+		display: 'flex',
+		alignItems: 'center',
+		justifyContent: 'center',
+		gap: '0.5rem',
+		backgroundColor: 'var(--background-default)',
+		border: `1px solid var(--border-default)`,
+		borderRadius: size === 's' ? theme.radii.m : theme.radii.l,
+		color: 'var(--text)',
+		cursor: 'pointer',
 
-	background-color: ${({ getColors, theme }) => getColors(theme).background.default};
-	border: 1px solid ${({ getColors, theme }) => getColors(theme).border.default};
-	border-radius: ${({ theme, size }) => (size === 's' ? theme.radii.m : theme.radii.l)};
-	color: ${({ getColors, theme }) => getColors(theme).text};
-	cursor: pointer;
+		fontFamily: theme.fonts.sans,
 
-	font-family: ${({ theme }) => theme.fonts.sans};
+		padding: size === 's' ? '0.75rem' : '1rem',
+		width: fullWidth ? '100%' : 'auto',
 
-	padding: ${({ size }) => (size === 's' ? '0.75rem' : '1rem')};
-	width: ${(props) => (props.fullWidth ? '100%' : 'auto')};
+		transition: `border ${theme.transition.appearance}`,
 
-	transition: border ${({ theme }) => theme.transition.appearance};
+		'&:hover': {
+			backgroundColor: 'var(--background-hover)',
+			borderColor: 'var(--border-hover)',
+		},
 
-	&:hover {
-		background-color: ${({ getColors, theme }) => getColors(theme).background.hover};
-		border-color: ${({ getColors, theme }) => getColors(theme).border.hover};
-	}
-
-	&:active {
-		background-color: ${({ getColors, theme }) => getColors(theme).background.active};
-		border-color: ${({ getColors, theme }) => getColors(theme).border.active};
-	}
-`;
+		'&:active': {
+			backgroundColor: 'var(--background-active)',
+			borderColor: 'var(--border-active)',
+		},
+	}),
+	({ theme }) =>
+		variant({
+			variants: {
+				danger: {
+					'--border-default': theme.colors.danger,
+					'--border-hover': theme.colors.dangerDark,
+					'--border-active': theme.colors.dangerDarker,
+					'--text': theme.colors.dangerForeground,
+					'--background-default': theme.colors.danger,
+					'--background-hover': theme.colors.dangerDark,
+					'--background-active': theme.colors.dangerDarker,
+				},
+				'accent-outline': {
+					'--border-default': theme.colors.border,
+					'--border-hover': theme.colors.borderHover,
+					'--border-active': theme.colors.borderActive,
+					'--text': theme.colors.primary,
+				},
+				'danger-outline': {
+					'--border-default': theme.colors.danger,
+					'--border-hover': theme.colors.dangerDark,
+					'--border-active': theme.colors.dangerDarker,
+					'--text': theme.colors.danger,
+				},
+			},
+		}),
+);
 
 const IconLeft = styled.div`
 	display: grid;

@@ -87,11 +87,15 @@ export const SectionEditor = ({ block, onSave, onDelete, nestedKey, onReorder }:
 						})}
 						<ContentButtons>
 							{!nestedKey && (
-								<Button iconLeft={<Save />} onClick={handleSubmit(onSubmit)}>
+								<Button
+									iconLeft={<Save />}
+									variant="accent-outline"
+									onClick={handleSubmit(onSubmit)}
+								>
 									Save
 								</Button>
 							)}
-							<Button iconLeft={<Trash />} variant="danger" outline onClick={onDelete}>
+							<Button iconLeft={<Trash />} variant="danger-outline" onClick={onDelete}>
 								Delete
 							</Button>
 						</ContentButtons>
