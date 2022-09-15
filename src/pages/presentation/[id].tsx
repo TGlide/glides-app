@@ -79,14 +79,22 @@ const Main = styled.div`
 
 const Wrapper = styled.div`
 	display: grid;
-	grid-template-columns: 12.5rem 1fr 25%;
 	flex: 1;
 	overflow: hidden;
+
+	@media (min-width: 768px) {
+		grid-template-columns: 12.5rem 1fr 25%;
+	}
 `;
 
 const Slides = styled.div`
 	height: 100%;
 	overflow-y: scroll;
+
+	display: none;
+	@media (min-width: 768px) {
+		display: block;
+	}
 `;
 
 const SlideCardWrapper = styled.button<{ selected?: boolean }>`

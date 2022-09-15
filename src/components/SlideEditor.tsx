@@ -196,6 +196,12 @@ const Wrapper = styled.div`
 	& > ${Title} {
 		margin-top: 2rem;
 	}
+
+	display: none;
+
+	@media (min-width: 768px) {
+		display: block;
+	}
 `;
 
 const Sections = styled.div`
