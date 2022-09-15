@@ -28,6 +28,7 @@ export const Preview = ({ slideId }: PreviewProps) => {
 
 const Wrapper = styled.div`
 	padding: 1rem;
+	overflow: hidden;
 `;
 
 const Card = styled.div`
