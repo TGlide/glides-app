@@ -32,6 +32,7 @@ const StyledTextSection = styled.p<{
 	font-weight: ${({ fontWeight }) => fontWeight};
 	font-family: ${({ theme, fontFamily }) => theme.fonts[fontFamily as 'serif' | 'sans']};
 	text-align: ${({ textAlign }) => textAlign};
+	padding: 0.25rem 0;
 `;
 
 export default TextSection;
