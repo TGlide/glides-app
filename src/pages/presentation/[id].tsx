@@ -54,9 +54,7 @@ const Presentation = () => {
 								onClick={() => setSlideIdx(index)}
 							>
 								<p>{index + 1}</p>
-								<SlideCard id={slide.id} selected={isSelected}>
-									{index}
-								</SlideCard>
+								<SlideCard id={slide.id} selected={isSelected} />
 							</SlideCardWrapper>
 						);
 					})}
@@ -93,6 +91,7 @@ const SlideCardWrapper = styled.button<{ selected?: boolean }>`
 	display: grid;
 	grid-template-columns: 16px 1fr;
 	gap: 0.5rem;
+	width: 100%;
 
 	--selected-bg: ${({ theme }) => alpha(theme.palette.teal[20], 0.05)};
 	background-color: ${(props) => (props.selected ? 'var(--selected-bg)' : 'transparent')};

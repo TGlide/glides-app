@@ -11,7 +11,7 @@ type PreviewProps = {
 
 export const Preview = ({ slideId }: PreviewProps) => {
 	const { data: slide } = trpc.useQuery(['slide.get', { id: slideId ?? '' }], {
-		enabled: !!slideId
+		enabled: !!slideId,
 	});
 	const content = parseSlideContent(slide?.content);
 

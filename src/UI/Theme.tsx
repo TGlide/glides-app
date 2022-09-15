@@ -7,7 +7,7 @@ type ThemeVariant = 'default' | 'accent';
 
 const themeMap: Record<ThemeVariant, ThemeObj> = {
 	default: theme,
-	accent: accentTheme
+	accent: accentTheme,
 };
 
 type ThemeProps = {

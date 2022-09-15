@@ -14,7 +14,7 @@ type SelectProps = {
 
 export const Select = forwardRef(function Select(
 	{ label, onChange, ...props }: SelectProps,
-	ref: ForwardedRef<HTMLSelectElement>
+	ref: ForwardedRef<HTMLSelectElement>,
 ) {
 	return (
 		<Wrapper>

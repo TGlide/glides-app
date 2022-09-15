@@ -43,15 +43,15 @@ export default withTRPC<AppRouter>({
 				loggerLink({
 					enabled: (opts) =>
 						process.env.NODE_ENV === 'development' ||
-						(opts.direction === 'down' && opts.result instanceof Error)
+						(opts.direction === 'down' && opts.result instanceof Error),
 				}),
-				httpBatchLink({ url })
+				httpBatchLink({ url }),
 			],
 			url,
-			transformer: superjson
+			transformer: superjson,
 		};
 	},
-	ssr: false
+	ssr: false,
 })(App);
 
 const PageWrapper = styled.div`

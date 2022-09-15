@@ -13,7 +13,7 @@ type InputProps = {
 
 export const Input = forwardRef(function Input(
 	{ label, onChange, ...props }: InputProps,
-	ref: ForwardedRef<HTMLInputElement>
+	ref: ForwardedRef<HTMLInputElement>,
 ) {
 	return (
 		<Wrapper>

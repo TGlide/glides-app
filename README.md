@@ -5,9 +5,7 @@
 - [X] Icon preview
 - [X] Grid section
 - [X] Section reordering
-- [ ] Link sharing
-- [ ] Export to HTML/PDF
 - [ ] Optimistic updates
-- [ ] Migrate to style objects
+- [ ] Reorder Slides
 - [ ] Responsive (?)
 - [ ] Complete code comment TODOs

@@ -3,11 +3,10 @@ import styled from 'styled-components';
 type SlideCardProps = {
 	id: string;
 	selected?: boolean;
-	children?: React.ReactNode;
 };
 
 export const SlideCard = ({ id, ...props }: SlideCardProps) => {
-	return <Wrapper {...props}>{id}</Wrapper>;
+	return <Wrapper {...props} />;
 };
 
 const Wrapper = styled.div<{ selected?: boolean }>`
@@ -24,7 +23,7 @@ const Wrapper = styled.div<{ selected?: boolean }>`
 	overflow: hidden;
 
 	width: 100%;
-	padding: 1rem;
+	height: 5rem;
 
 	transition: border ${({ theme }) => theme.transition.appearance};
 `;

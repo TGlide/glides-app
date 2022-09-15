@@ -67,6 +67,9 @@ const TextBlockRegister = registerBlock('text', {
 	fontWeight: registerSelectField('normal', {
 		options: ['normal', 'bold'],
 	}),
+	fontFamily: registerSelectField('sans', {
+		options: ['sans', 'serif'],
+	}),
 	textAlign: registerSelectField('left', {
 		options: ['left', 'center', 'right'],
 	}),

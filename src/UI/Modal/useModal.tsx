@@ -15,6 +15,6 @@ export const useModal = () => {
 		open,
 		toggle,
 		setOpen,
-		Modal: component
+		Modal: component,
 	};
 };

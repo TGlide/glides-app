@@ -18,7 +18,29 @@ type EditorProps = {
 export const SlideEditor = ({ slideId }: EditorProps) => {
 	const queryClient = useQueryClient();
 	const deleteMutation = trpc.useMutation(['slide.delete']);
-	const updateMutation = trpc.useMutation(['slide.update']);
+	const updateMutation = trpc.useMutation(['slide.update'], {
+		onMutate: async (newSlide) => {
+			// Cancel any outgoing refetches (so they don't overwrite our optimistic update)
+			await queryClient.cancelQueries(['slide.get', { id: slideId }]);
+
+			// Snapshot the previous value
+			const previousSlide = queryClient.getQueryData(['slide.get', { id: slideId }]);
+
+			// Optimistically update to the new value
+			queryClient.setQueryData(['slide.get', { id: slideId }], newSlide);
+
+			// Return a context object with the snapshotted value
+			return { previousSlide };
+		},
+		// If the mutation fails, use the context we returned above
+		onError: (_err, _newSlide, context) => {
+			queryClient.setQueryData(['slide.get', { id: slideId }], context?.previousSlide);
+		},
+		// If the mutation succeeds, invalidate the old data
+		onSettled: () => {
+			queryClient.invalidateQueries(['slide.get', { id: slideId }]);
+		},
+	});
 	const { data: slide } = trpc.useQuery(['slide.get', { id: slideId ?? '' }], {
 		enabled: !!slideId,
 	});
@@ -129,7 +151,7 @@ export const SlideEditor = ({ slideId }: EditorProps) => {
 								onDelete={() => handleDeleteBlock(index)}
 								onReorder={(direction) => handleReorderBlock(direction, index)}
 								block={block}
-								key={index}
+								key={block.uid}
 							/>
 						);
 					})}

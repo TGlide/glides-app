@@ -11,7 +11,7 @@ const palette = {
 		70: 'hsla(182, 74%, 70%, 100%)',
 		80: 'hsla(182, 74%, 80%, 100%)',
 		90: 'hsla(182, 74%, 90%, 100%)',
-		100: 'hsla(182, 74%, 100%, 100%)'
+		100: 'hsla(182, 74%, 100%, 100%)',
 	},
 	red: {
 		0: 'hsla(0, 84%, 0%, 1)',
@@ -25,7 +25,7 @@ const palette = {
 		70: 'hsla(0, 84%, 70%, 1)',
 		80: 'hsla(0, 84%, 80%, 1)',
 		90: 'hsla(0, 84%, 90%, 1)',
-		100: 'hsla(0, 84%, 100%, 1)'
+		100: 'hsla(0, 84%, 100%, 1)',
 	},
 	gray: {
 		0: 'hsla(220, 47%, 0%, 1)',
@@ -38,10 +38,10 @@ const palette = {
 		70: 'hsla(220, 47%, 70%, 1)',
 		80: 'hsla(220, 47%, 80%, 1)',
 		90: 'hsla(220, 47%, 90%, 1)',
-		100: 'hsla(220, 47%, 100%, 1)'
+		100: 'hsla(220, 47%, 100%, 1)',
 	},
 	white: 'hsla(0, 0%, 100%, 1)',
-	black: 'hsla(0, 0%, 0%, 1)'
+	black: 'hsla(0, 0%, 0%, 1)',
 };
 
 export const theme = {
@@ -61,11 +61,11 @@ export const theme = {
 		dangerForeground: palette.white,
 		border: alpha(palette.gray[10], 0.25),
 		borderHover: alpha(palette.teal[30], 0.5),
-		borderActive: palette.teal[30]
+		borderActive: palette.teal[30],
 	},
 	fonts: {
 		serif: '"Libre Baskerville", serif',
-		sans: '"Manrope", sans-serif'
+		sans: '"Manrope", sans-serif',
 	},
 	radii: {
 		none: '0',
@@ -73,14 +73,14 @@ export const theme = {
 		m: '0.5rem',
 		l: '1rem',
 		round: '50%',
-		full: '9999px'
+		full: '9999px',
 	},
 	transition: {
 		appearance: '200ms ease',
 		motion: '300ms cubic-bezier(0.2, 1, 0.2, 1)',
 		smooth: '400ms cubic-bezier(0.9, 0, 0.05, 1)',
-		inOut: '300ms ease-in-out'
-	}
+		inOut: '300ms ease-in-out',
+	},
 };
 
 export const accentTheme = {
@@ -95,8 +95,8 @@ export const accentTheme = {
 		danger: palette.white,
 		dangerDark: alpha(palette.white, 0.95),
 		dangerDarker: alpha(palette.white, 0.9),
-		dangerForeground: palette.red[40]
-	}
+		dangerForeground: palette.red[40],
+	},
 };
 
 export type ThemeObj = typeof theme;

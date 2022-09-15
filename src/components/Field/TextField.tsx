@@ -5,8 +5,7 @@ import { Input } from 'UI/Input';
 import { FieldProps } from './Field';
 
 const TextField = ({ name, ...props }: FieldProps) => {
-	const { register, watch } = useFormContext();
-	console.log(name, watch());
+	const { register } = useFormContext();
 
 	return <Input {...register(name)} {...props} />;
 };

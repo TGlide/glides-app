@@ -18,7 +18,39 @@ export const PresentationTopBar = ({ presentationId }: PresentationTopBarProps) 
 	const router = useRouter();
 
 	const { data } = trpc.useQuery(['presentation.get', { id: presentationId }]);
-	const updatePresentation = trpc.useMutation(['presentation.update']);
+	const updatePresentation = trpc.useMutation(['presentation.update'], {
+		onMutate: async (newPres) => {
+			// Cancel any outgoing refetches (so they don't overwrite our optimistic update)
+			await client.cancelQueries(['presentation.get', { id: presentationId }]);
+			await client.cancelQueries(['presentation.getAll']);
+
+			// Snapshot the previous value
+			const previousPresentations = client.getQueryData(['presentation.getAll']);
+
+			// Optimistically update to the new value
+			client.setQueryData(['presentation.getAll'], (old) => {
+				if (!Array.isArray(old)) return old;
+
+				return old.map((pres) => {
+					if (pres.id === newPres.id) {
+						return newPres;
+					}
+					return pres;
+				});
+			});
+
+			// Return a context object with the snapshotted value
+			return { previousPresentations };
+		},
+		// If the mutation fails, use the context we returned above
+		onError: (_err, _newPres, context) => {
+			client.setQueryData(['presentation.getAll'], context?.previousPresentations);
+		},
+		// If the mutation succeeds, invalidate the old data
+		onSettled: () => {
+			client.invalidateQueries(['presentation.getAll']);
+		},
+	});
 	const deletePresentation = trpc.useMutation(['presentation.delete']);
 
 	const [title, setTitle] = useState(data?.title);
