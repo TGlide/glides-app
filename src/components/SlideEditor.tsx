@@ -200,7 +200,7 @@ const Wrapper = styled.div`
 	display: none;
 
 	@media (min-width: 768px) {
-		display: block;
+		display: flex;
 	}
 `;
 
